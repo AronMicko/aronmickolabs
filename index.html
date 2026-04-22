@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aron Micko Labs — Wellness Apps</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --mint:    #7FFFD4;
+    --mint-dim:#3CB8A0;
+    --navy:    #060D18;
+    --navy2:   #0A1628;
+    --navy3:   #0D2137;
+    --gold:    #C9A84C;
+    --white:   #F0F8F4;
+    --muted:   rgba(127,255,212,0.55);
+    --glass:   rgba(10,22,40,0.72);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--navy);
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* ── STAR CANVAS ── */
+  #stars {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── LAYOUT ── */
+  .wrap {
+    position: relative;
+    z-index: 1;
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 28px;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    background: rgba(6,13,24,0.82);
+    border-bottom: 1px solid rgba(127,255,212,0.1);
+    padding: 18px 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .nav-brand {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--mint);
+    letter-spacing: 0.08em;
+    text-decoration: none;
+  }
+
+  .nav-links { display: flex; gap: 28px; list-style: none; }
+  .nav-links a {
+    font-size: 0.78rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(240,248,244,0.6);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+  .nav-links a:hover { color: var(--mint); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 92vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 80px 28px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero-inner { max-width: 720px; }
+
+  .hero-eyebrow {
+    font-size: 0.72rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--mint);
+    margin-bottom: 24px;
+    opacity: 0;
+    animation: fadeUp 0.9s 0.2s forwards;
+  }
+
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3rem, 8vw, 5.5rem);
+    font-weight: 300;
+    line-height: 1.08;
+    letter-spacing: -0.01em;
+    color: var(--white);
+    margin-bottom: 28px;
+    opacity: 0;
+    animation: fadeUp 0.9s 0.4s forwards;
+  }
+
+  .hero-title em {
+    font-style: italic;
+    color: var(--mint);
+  }
+
+  .hero-sub {
+    font-size: 1.05rem;
+    color: rgba(240,248,244,0.65);
+    max-width: 520px;
+    margin: 0 auto 48px;
+    opacity: 0;
+    animation: fadeUp 0.9s 0.6s forwards;
+  }
+
+  .hero-verse {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 1rem;
+    color: var(--mint);
+    opacity: 0;
+    animation: fadeUp 0.9s 0.8s forwards;
+  }
+
+  .dove-icon {
+    font-size: 4rem;
+    display: block;
+    margin-bottom: 32px;
+    opacity: 0;
+    animation: fadeDown 0.9s 0.1s forwards;
+    filter: drop-shadow(0 0 30px rgba(127,255,212,0.4));
+  }
+
+  /* ── SECTION COMMON ── */
+  section {
+    padding: 100px 0;
+    position: relative;
+    z-index: 1;
+  }
+
+  .section-label {
+    font-size: 0.68rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--mint);
+    margin-bottom: 16px;
+    display: block;
+  }
+
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 300;
+    line-height: 1.15;
+    margin-bottom: 20px;
+  }
+
+  .section-title em { font-style: italic; color: var(--mint); }
+
+  .section-body {
+    color: rgba(240,248,244,0.65);
+    font-size: 0.97rem;
+    max-width: 600px;
+    line-height: 1.8;
+  }
+
+  hr.divider {
+    border: none;
+    border-top: 1px solid rgba(127,255,212,0.1);
+    margin: 0;
+  }
+
+  /* ── APPS GRID ── */
+  .apps-grid {
+    display: grid;
+    gap: 28px;
+    margin-top: 64px;
+  }
+
+  .app-card {
+    background: rgba(13,33,55,0.6);
+    border: 1px solid rgba(127,255,212,0.12);
+    border-radius: 20px;
+    padding: 44px 40px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.4s, transform 0.4s;
+    backdrop-filter: blur(12px);
+  }
+
+  .app-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--mint), transparent);
+    opacity: 0;
+    transition: opacity 0.4s;
+  }
+
+  .app-card:hover {
+    border-color: rgba(127,255,212,0.35);
+    transform: translateY(-4px);
+  }
+
+  .app-card:hover::before { opacity: 1; }
+
+  .app-card-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    margin-bottom: 24px;
+  }
+
+  .app-emoji {
+    font-size: 2.8rem;
+    flex-shrink: 0;
+    filter: drop-shadow(0 0 16px rgba(127,255,212,0.3));
+  }
+
+  .app-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.7rem;
+    font-weight: 600;
+    color: var(--white);
+    line-height: 1.2;
+    margin-bottom: 4px;
+  }
+
+  .app-tagline {
+    font-size: 0.82rem;
+    color: var(--mint);
+    letter-spacing: 0.1em;
+  }
+
+  .app-desc {
+    color: rgba(240,248,244,0.65);
+    font-size: 0.93rem;
+    line-height: 1.8;
+    margin-bottom: 28px;
+  }
+
+  .app-features {
+    list-style: none;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px 20px;
+    margin-bottom: 32px;
+  }
+
+  .app-features li {
+    font-size: 0.83rem;
+    color: rgba(240,248,244,0.7);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .app-features li::before {
+    content: '';
+    width: 4px; height: 4px;
+    border-radius: 50%;
+    background: var(--mint);
+    flex-shrink: 0;
+  }
+
+  .btn-download {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 28px;
+    border-radius: 100px;
+    font-size: 0.82rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-decoration: none;
+    transition: all 0.3s;
+    border: 1.5px solid rgba(127,255,212,0.4);
+    color: var(--mint);
+    background: rgba(127,255,212,0.06);
+  }
+
+  .btn-download:hover {
+    background: rgba(127,255,212,0.15);
+    border-color: var(--mint);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(127,255,212,0.15);
+  }
+
+  .app-number {
+    position: absolute;
+    top: 32px; right: 36px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 4rem;
+    font-weight: 300;
+    color: rgba(127,255,212,0.06);
+    line-height: 1;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  /* ── VALUES ── */
+  .values-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-top: 56px;
+  }
+
+  .value-card {
+    padding: 32px 28px;
+    border: 1px solid rgba(127,255,212,0.1);
+    border-radius: 16px;
+    background: rgba(10,22,40,0.5);
+    transition: border-color 0.3s;
+  }
+
+  .value-card:hover { border-color: rgba(127,255,212,0.3); }
+
+  .value-icon {
+    font-size: 1.6rem;
+    margin-bottom: 16px;
+    display: block;
+  }
+
+  .value-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--mint);
+    margin-bottom: 8px;
+  }
+
+  .value-desc {
+    font-size: 0.82rem;
+    color: rgba(240,248,244,0.55);
+    line-height: 1.7;
+  }
+
+  /* ── STORY ── */
+  .story-block {
+    background: rgba(13,33,55,0.5);
+    border: 1px solid rgba(127,255,212,0.12);
+    border-radius: 24px;
+    padding: 60px 56px;
+    margin-top: 64px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .story-block::after {
+    content: '\201C';
+    position: absolute;
+    top: -20px; left: 32px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 12rem;
+    color: rgba(127,255,212,0.05);
+    line-height: 1;
+    pointer-events: none;
+  }
+
+  .story-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.35rem;
+    font-style: italic;
+    font-weight: 300;
+    line-height: 1.75;
+    color: rgba(240,248,244,0.85);
+    margin-bottom: 32px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .story-sig {
+    font-size: 0.82rem;
+    color: var(--mint);
+    letter-spacing: 0.12em;
+  }
+
+  /* ── CONTACT ── */
+  .contact-box {
+    text-align: center;
+    padding: 80px 40px;
+    border: 1px solid rgba(127,255,212,0.12);
+    border-radius: 24px;
+    background: rgba(13,33,55,0.4);
+    margin-top: 64px;
+  }
+
+  .contact-box .section-title { margin-bottom: 16px; }
+
+  .contact-email {
+    display: inline-block;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem;
+    color: var(--mint);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(127,255,212,0.3);
+    padding-bottom: 4px;
+    margin-top: 24px;
+    transition: border-color 0.3s;
+  }
+
+  .contact-email:hover { border-color: var(--mint); }
+
+  .disclaimer {
+    margin-top: 32px;
+    font-size: 0.78rem;
+    color: rgba(240,248,244,0.35);
+    line-height: 1.7;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid rgba(127,255,212,0.08);
+    padding: 48px 28px;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+  }
+
+  .footer-verse {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    color: rgba(127,255,212,0.5);
+    font-size: 0.9rem;
+    margin-bottom: 16px;
+  }
+
+  .footer-copy {
+    font-size: 0.75rem;
+    color: rgba(240,248,244,0.25);
+    letter-spacing: 0.1em;
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(32px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 600px) {
+    .app-features { grid-template-columns: 1fr; }
+    .story-block  { padding: 40px 28px; }
+    .nav-links    { display: none; }
+    .app-card     { padding: 32px 24px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Star field canvas -->
+<canvas id="stars"></canvas>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-brand" href="#">Aron Micko Labs</a>
+  <ul class="nav-links">
+    <li><a href="#apps">Apps</a></li>
+    <li><a href="#values">Values</a></li>
+    <li><a href="#story">Story</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <span class="dove-icon">🕊️</span>
+    <p class="hero-eyebrow">Aron Micko Labs &nbsp;·&nbsp; Wellness Apps</p>
+    <h1 class="hero-title">
+      Building apps that <em>heal,</em><br>one breath at a time.
+    </h1>
+    <p class="hero-sub">
+      Faith-based, science-backed wellness apps designed for people
+      who live with anxiety, panic attacks, stress, and depression.
+    </p>
+    <p class="hero-verse">"Be still and know that I am God." — Psalm 46:10</p>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- APPS -->
+<section id="apps">
+  <div class="wrap">
+    <span class="section-label reveal">Our Applications</span>
+    <h2 class="section-title reveal">Three apps. <em>One mission.</em></h2>
+    <p class="section-body reveal">
+      Each app was built with a specific kind of struggle in mind —
+      and a genuine desire to help people find peace in the middle of it.
+    </p>
+
+    <div class="apps-grid">
+
+      <!-- Serenara -->
+      <div class="app-card reveal">
+        <span class="app-number">01</span>
+        <div class="app-card-header">
+          <span class="app-emoji">🌿</span>
+          <div>
+            <div class="app-name">Serenara</div>
+            <div class="app-tagline">Anxiety Relief</div>
+          </div>
+        </div>
+        <p class="app-desc">
+          A simple wellness app designed to help you manage anxiety, stress,
+          and panic attacks through guided breathing exercises, calming tools,
+          and daily mental relaxation techniques.
+        </p>
+        <ul class="app-features">
+          <li>Guided breathing exercises</li>
+          <li>Panic attack calming tools</li>
+          <li>Daily relaxation techniques</li>
+          <li>Peaceful, minimal interface</li>
+          <li>Works completely offline</li>
+          <li>No ads, no subscriptions</li>
+        </ul>
+        <a class="btn-download" href="https://play.google.com/store/apps/details?id=com.aronmickolabs.serenara" target="_blank">
+          ↗ Download on Google Play
+        </a>
+      </div>
+
+      <!-- Sensery -->
+      <div class="app-card reveal">
+        <span class="app-number">02</span>
+        <div class="app-card-header">
+          <span class="app-emoji">🎧</span>
+          <div>
+            <div class="app-name">Sensery</div>
+            <div class="app-tagline">Mindful Audio Health</div>
+          </div>
+        </div>
+        <p class="app-desc">
+          The next chapter of Serenara — a wellness audio app designed to help
+          you manage anxiety, stress, panic episodes, and sleep difficulties
+          through mood-based podcast recommendations and curated calming audio.
+        </p>
+        <ul class="app-features">
+          <li>Mood-based audio recommendations</li>
+          <li>Curated calming podcasts</li>
+          <li>Background audio playback</li>
+          <li>Sleep and relaxation sounds</li>
+          <li>Designed for mental wellness</li>
+          <li>Gentle, distraction-free UI</li>
+        </ul>
+        <a class="btn-download" href="https://play.google.com/store/apps/details?id=com.aronmicko.sensery" target="_blank">
+          ↗ Download on Google Play
+        </a>
+      </div>
+
+      <!-- Serevibe -->
+      <div class="app-card reveal">
+        <span class="app-number">03</span>
+        <div class="app-card-header">
+          <span class="app-emoji">🕊️</span>
+          <div>
+            <div class="app-name">Serevibe</div>
+            <div class="app-tagline">Calm Dove Companion</div>
+          </div>
+        </div>
+        <p class="app-desc">
+          A faith-based calm rhythm game designed to help you breathe through
+          anxiety and panic attacks — all while having fun. Guide your dove
+          through peaceful skies, collect blessing rings, and follow a gentle
+          breathing coach that brings your nervous system back to peace.
+        </p>
+        <ul class="app-features">
+          <li>Calm Flight rhythm game</li>
+          <li>4-7-8 &amp; Box Breathing guide</li>
+          <li>5-phase grounding quotes</li>
+          <li>Scripture affirmations</li>
+          <li>Relaxing background music</li>
+          <li>100% offline — no ads</li>
+        </ul>
+        <a class="btn-download" href="https://play.google.com/store/apps/details?id=com.aronmickolabs.serevibe" target="_blank">
+          ↗ Download on Google Play
+        </a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- VALUES -->
+<section id="values">
+  <div class="wrap">
+    <span class="section-label reveal">What We Stand For</span>
+    <h2 class="section-title reveal">Built on <em>values,</em><br>not vanity metrics.</h2>
+
+    <div class="values-grid">
+      <div class="value-card reveal">
+        <span class="value-icon">🔬</span>
+        <div class="value-title">Science-Based</div>
+        <p class="value-desc">Every breathing technique is grounded in neuroscience and clinical research on the vagus nerve and parasympathetic system.</p>
+      </div>
+      <div class="value-card reveal">
+        <span class="value-icon">✝️</span>
+        <div class="value-title">Faith-Centered</div>
+        <p class="value-desc">Built on the belief that true peace comes from God. Our apps gently point people toward that truth.</p>
+      </div>
+      <div class="value-card reveal">
+        <span class="value-icon">💚</span>
+        <div class="value-title">Genuinely Caring</div>
+        <p class="value-desc">We build for people who are hurting, not for profit. All core features are and will always be free.</p>
+      </div>
+      <div class="value-card reveal">
+        <span class="value-icon">🔌</span>
+        <div class="value-title">Offline First</div>
+        <p class="value-desc">Our apps work without internet. Peace should be accessible everywhere — even where there is no signal.</p>
+      </div>
+      <div class="value-card reveal">
+        <span class="value-icon">🔒</span>
+        <div class="value-title">Privacy First</div>
+        <p class="value-desc">We do not collect your personal data. Ever. What happens on your device stays on your device.</p>
+      </div>
+      <div class="value-card reveal">
+        <span class="value-icon">🌏</span>
+        <div class="value-title">Made in the PH</div>
+        <p class="value-desc">Built by a Filipino developer for the world — with the warmth, faith, and resilience our culture is known for.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- STORY -->
+<section id="story">
+  <div class="wrap">
+    <span class="section-label reveal">Our Story</span>
+    <h2 class="section-title reveal">Why these apps <em>exist.</em></h2>
+    <div class="story-block reveal">
+      <p class="story-text">
+        I know what anxiety feels like. I know what it is like to wake up
+        with your heart racing, not knowing why. I know what panic attacks
+        feel like in the middle of the day when everything seems fine on the outside.
+        <br><br>
+        These apps were not built in a big office by a large team. They were
+        built by one person, with a laptop, a lot of prayer, and a genuine
+        desire to help people feel less alone in what they are going through.
+        <br><br>
+        If even one person opens Serevibe or Serenara on their worst day
+        and feels a little more peace — that is enough for me.
+      </p>
+      <span class="story-sig">— Aron Micko Boquiren, Founder · Aron Micko Labs</span>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="wrap">
+    <div class="contact-box reveal">
+      <span class="section-label">Get in Touch</span>
+      <h2 class="section-title">We read <em>every</em> message.</h2>
+      <p class="section-body" style="margin: 0 auto; text-align:center;">
+        Have feedback, a question, or just want to say hi?
+        We would love to hear from you. 🙏
+      </p>
+      <a class="contact-email" href="mailto:aronmickolabs@gmail.com">
+        aronmickolabs@gmail.com
+      </a>
+      <p class="disclaimer">
+        Aron Micko Labs apps are wellness companions, not medical treatments.<br>
+        If you are experiencing a mental health crisis, please reach out to a licensed professional.<br>
+        Crisis support: Call or text <strong>988</strong> &nbsp;·&nbsp; International: findahelpline.com
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p class="footer-verse">"Cast all your anxiety on Him because He cares for you." — 1 Peter 5:7</p>
+  <p class="footer-copy">Aron Micko Labs © 2026 &nbsp;·&nbsp; Made with faith and care &nbsp;🕊️</p>
+</footer>
+
+<script>
+/* ── STAR FIELD ── */
+(function(){
+  const c = document.getElementById('stars');
+  const ctx = c.getContext('2d');
+  let W, H, stars = [];
+
+  function resize(){
+    W = c.width  = window.innerWidth;
+    H = c.height = window.innerHeight;
+  }
+
+  function initStars(){
+    stars = Array.from({length: 120}, () => ({
+      x: Math.random() * W,
+      y: Math.random() * H,
+      r: Math.random() * 1.4 + 0.3,
+      speed: Math.random() * 0.004 + 0.001,
+      phase: Math.random() * Math.PI * 2,
+    }));
+  }
+
+  let t = 0;
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    t += 0.008;
+    stars.forEach(s => {
+      const alpha = 0.15 + 0.55 * (Math.sin(t * s.speed * 80 + s.phase) + 1) / 2;
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, s.r, 0, Math.PI*2);
+      ctx.fillStyle = `rgba(127,255,212,${alpha})`;
+      ctx.fill();
+    });
+    requestAnimationFrame(draw);
+  }
+
+  resize(); initStars(); draw();
+  window.addEventListener('resize', ()=>{ resize(); initStars(); });
+})();
+
+/* ── SCROLL REVEAL ── */
+(function(){
+  const els = document.querySelectorAll('.reveal');
+  const io  = new IntersectionObserver(entries => {
+    entries.forEach((e, i) => {
+      if(e.isIntersecting){
+        setTimeout(() => e.target.classList.add('visible'), i * 80);
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  els.forEach(el => io.observe(el));
+})();
+</script>
+</body>
+</html>
