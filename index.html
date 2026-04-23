@@ -2,9 +2,15 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<link rel="dns-prefetch" href="https://fonts.googleapis.com">
+<link rel="dns-prefetch" href="https://fonts.gstatic.com">
+<link rel="dns-prefetch" href="https://play.google.com">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Aron Micko Labs · Beta Testing Program</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500;600&display=swap"></noscript>
 <style>
 :root {
   --mint:   #7FFFD4;
@@ -29,7 +35,7 @@ body {
   overflow-x: hidden;
 }
 
-#stars { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
+#stars { position: fixed; inset: 0; pointer-events: none; z-index: 0; will-change: transform; contain: strict; }
 
 /* ===== FUTURISTIC SCAN LINE OVERLAY ===== */
 .scanlines {
@@ -42,6 +48,8 @@ body {
     rgba(127,255,212,0.012) 4px
   );
   animation: scanMove 8s linear infinite;
+  will-change: background-position;
+  contain: strict;
 }
 
 @keyframes scanMove {
@@ -53,6 +61,7 @@ body {
 .aurora {
   position: fixed; inset: 0; pointer-events: none; z-index: 0;
   overflow: hidden;
+  contain: strict;
 }
 
 .aurora-orb {
@@ -61,6 +70,7 @@ body {
   animation: orbDrift 18s ease-in-out infinite alternate;
   opacity: 0;
   animation-fill-mode: forwards;
+  will-change: transform;
 }
 
 .aurora-orb:nth-child(1) {
@@ -112,6 +122,8 @@ body {
   background-size: 80px 80px;
   mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 0%, transparent 100%);
   animation: gridShift 20s linear infinite;
+  will-change: background-position;
+  contain: strict;
 }
 
 @keyframes gridShift {
@@ -299,6 +311,11 @@ hr.divider {
 }
 
 section { padding: 110px 0; position: relative; z-index: 1; }
+/* Content visibility: skip rendering off-screen sections */
+#about, #how, #apps, #reminders, #feedback {
+  content-visibility: auto;
+  contain-intrinsic-size: 0 800px;
+}
 
 .section-label {
   font-size: 0.64rem; letter-spacing: 0.34em;
@@ -331,6 +348,7 @@ section { padding: 110px 0; position: relative; z-index: 1; }
   position: relative; overflow: hidden;
   transition: border-color 0.45s, transform 0.45s, box-shadow 0.45s;
   backdrop-filter: blur(14px);
+  contain: layout style;
 }
 
 .step-card::before {
@@ -397,6 +415,7 @@ section { padding: 110px 0; position: relative; z-index: 1; }
   position: relative; overflow: hidden;
   transition: border-color 0.45s, transform 0.45s, box-shadow 0.45s;
   backdrop-filter: blur(16px);
+  contain: layout style;
 }
 
 .app-card::before {
@@ -664,6 +683,7 @@ section { padding: 110px 0; position: relative; z-index: 1; }
   border: 1px solid rgba(127,255,212,0.08);
   border-radius: 18px; background: rgba(10,22,40,0.5);
   transition: border-color 0.38s, transform 0.38s, background 0.38s;
+  contain: layout style;
 }
 
 .reminder-card:hover {
@@ -738,6 +758,11 @@ section { padding: 110px 0; position: relative; z-index: 1; }
    FUTURISTIC TESTER FEEDBACK CAROUSEL — FULL REDESIGN
    ============================================================ */
 #feedback-section { padding: 110px 0; position: relative; z-index: 1; }
+/* Content visibility: skip rendering off-screen sections */
+#about, #how, #apps, #reminders, #feedback {
+  content-visibility: auto;
+  contain-intrinsic-size: 0 800px;
+}
 
 /* Outer wrapper: perspective + overflow clips */
 .carousel-outer {
@@ -1655,7 +1680,7 @@ hr.divider {
           </div>
         </div>
         <div class="btn-row" style="margin-top: 28px;">
-          <a class="btn-test" href="https://play.google.com/store/apps/details?id=com.aronmickolabs.serenara" target="_blank">
+          <a class="btn-test" href="https://play.google.com/store/apps/details?id=com.aronmickolabs.serenara" target="_blank" rel="noopener noreferrer">
             <span class="btn-icon">▶</span>Open on Google Play
           </a>
           <button class="btn-copy" onclick="copyLink('https://play.google.com/store/apps/details?id=com.aronmickolabs.serenara', this, 'instr-serenara')">
@@ -1731,7 +1756,7 @@ hr.divider {
           </div>
         </div>
         <div class="btn-row" style="margin-top: 28px;">
-          <a class="btn-test" href="https://play.google.com/store/apps/details?id=com.aronmicko.sensery" target="_blank">
+          <a class="btn-test" href="https://play.google.com/store/apps/details?id=com.aronmicko.sensery" target="_blank" rel="noopener noreferrer">
             <span class="btn-icon">▶</span>Open on Google Play
           </a>
           <button class="btn-copy" onclick="copyLink('https://play.google.com/store/apps/details?id=com.aronmicko.sensery', this, 'instr-sensery')">
@@ -1808,7 +1833,7 @@ hr.divider {
           </div>
         </div>
         <div class="btn-row" style="margin-top: 28px;">
-          <a class="btn-test" href="https://play.google.com/store/apps/details?id=com.aronmickolabs.serevibe" target="_blank">
+          <a class="btn-test" href="https://play.google.com/store/apps/details?id=com.aronmickolabs.serevibe" target="_blank" rel="noopener noreferrer">
             <span class="btn-icon">▶</span>Open on Google Play
           </a>
           <button class="btn-copy" onclick="copyLink('https://play.google.com/store/apps/details?id=com.aronmickolabs.serevibe', this, 'instr-serevibe')">
@@ -1909,43 +1934,79 @@ hr.divider {
 </footer>
 
 <script>
-/* ===== STARS ===== */
+/* ===== STARS — optimised (batched by alpha, skip if hidden) ===== */
 (function(){
   const c = document.getElementById('stars');
-  const ctx = c.getContext('2d');
-  let W, H, stars = [];
-  function resize(){ W = c.width = window.innerWidth; H = c.height = window.innerHeight; }
+  const ctx = c.getContext('2d', {alpha: true, desynchronized: true});
+  let W, H, stars = [], raf = null;
+  function resize(){
+    W = c.width  = window.innerWidth;
+    H = c.height = window.innerHeight;
+  }
   function initStars(){
-    stars = Array.from({length:200}, () => ({
-      x: Math.random()*W, y: Math.random()*H,
-      r: Math.random()*1.6+0.2,
-      speed: Math.random()*0.003+0.0003,
-      phase: Math.random()*Math.PI*2,
-    }));
+    // Reduce count on mobile (< 768px) to save battery
+    const count = window.innerWidth < 768 ? 100 : 160;
+    stars = [];
+    for (let i = 0; i < count; i++) {
+      stars.push({
+        x: Math.random()*W, y: Math.random()*H,
+        r: Math.random()*1.4+0.2,
+        speed: Math.random()*0.003+0.0003,
+        phase: Math.random()*Math.PI*2,
+      });
+    }
   }
   let t = 0;
+  // Group stars into alpha buckets to reduce fillStyle changes
+  const BUCKETS = 8;
   function draw(){
-    ctx.clearRect(0,0,W,H); t += 0.005;
+    if (document.hidden) { raf = requestAnimationFrame(draw); return; }
+    ctx.clearRect(0,0,W,H);
+    t += 0.004;
+    // Sort into buckets by quantised alpha
+    const buckets = Array.from({length: BUCKETS}, () => []);
     stars.forEach(s => {
-      const a = 0.07 + 0.55*(Math.sin(t*s.speed*130+s.phase)+1)/2;
+      const raw = 0.07 + 0.55*(Math.sin(t*s.speed*130+s.phase)+1)/2;
+      const bi = Math.min(BUCKETS-1, Math.floor(raw * BUCKETS));
+      buckets[bi].push(s);
+    });
+    buckets.forEach((group, bi) => {
+      if (!group.length) return;
+      const alpha = ((bi + 0.5) / BUCKETS).toFixed(2);
+      ctx.fillStyle = `rgba(127,255,212,${alpha})`;
       ctx.beginPath();
-      ctx.arc(s.x, s.y, s.r, 0, Math.PI*2);
-      ctx.fillStyle = `rgba(127,255,212,${a})`;
+      group.forEach(s => {
+        ctx.moveTo(s.x + s.r, s.y);
+        ctx.arc(s.x, s.y, s.r, 0, Math.PI*2);
+      });
       ctx.fill();
     });
-    requestAnimationFrame(draw);
+    raf = requestAnimationFrame(draw);
   }
   resize(); initStars(); draw();
-  window.addEventListener('resize', ()=>{ resize(); initStars(); });
+  // Debounced resize
+  let resizeTimer;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => { resize(); initStars(); }, 200);
+  }, {passive: true});
 })();
 
-/* ===== CURSOR GLOW ===== */
+/* ===== CURSOR GLOW — rAF throttled ===== */
 (function(){
   const g = document.getElementById('cursorGlow');
+  let cx = 0, cy = 0, pending = false;
   document.addEventListener('mousemove', e => {
-    g.style.left = e.clientX+'px';
-    g.style.top  = e.clientY+'px';
-  });
+    cx = e.clientX; cy = e.clientY;
+    if (!pending) {
+      pending = true;
+      requestAnimationFrame(() => {
+        g.style.left = cx + 'px';
+        g.style.top  = cy + 'px';
+        pending = false;
+      });
+    }
+  }, {passive: true});
 })();
 
 /* ===== REVEAL ON SCROLL — futuristic blur+slide ===== */
@@ -2141,8 +2202,15 @@ document.getElementById('slideCounter').innerHTML = '<span>1</span> / 2';
 /* ===== BACK TO TOP ===== */
 (function(){
   const btn = document.getElementById('back-top');
+  let scrollPending = false;
   window.addEventListener('scroll', () => {
-    btn.classList.toggle('visible', window.scrollY > 500);
+    if (!scrollPending) {
+      scrollPending = true;
+      requestAnimationFrame(() => {
+        btn.classList.toggle('visible', window.scrollY > 500);
+        scrollPending = false;
+      });
+    }
   }, {passive:true});
 })();
 
@@ -2157,6 +2225,34 @@ document.getElementById('slideCounter').innerHTML = '<span>1</span> / 2';
     });
   }, {threshold: 0.1});
   sections.forEach(s => io.observe(s));
+})();
+
+/* ===== PAUSE ALL CSS ANIMATIONS WHEN TAB IS HIDDEN ===== */
+(function(){
+  const pauseStyle = document.createElement('style');
+  pauseStyle.id = 'pause-anims';
+  pauseStyle.textContent = '*, *::before, *::after { animation-play-state: paused !important; }';
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+      document.head.appendChild(pauseStyle);
+    } else {
+      const el = document.getElementById('pause-anims');
+      if (el) el.remove();
+    }
+  });
+})();
+
+/* ===== REDUCE STAR COUNT ON LOW-END / SLOW CONNECTIONS ===== */
+(function(){
+  const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+  const slowConn = conn && (conn.saveData || conn.effectiveType === '2g' || conn.effectiveType === 'slow-2g');
+  const lowMem  = navigator.deviceMemory && navigator.deviceMemory < 2;
+  if (slowConn || lowMem) {
+    // Disable heavy fixed-position decorative layers
+    document.querySelector('.holo-grid') && (document.querySelector('.holo-grid').style.display = 'none');
+    document.querySelector('.scanlines') && (document.querySelector('.scanlines').style.display = 'none');
+    document.querySelectorAll('.aurora-orb').forEach((o,i) => { if(i>0) o.style.display='none'; });
+  }
 })();
 </script>
 </body>
