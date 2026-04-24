@@ -521,6 +521,46 @@ section { padding: 110px 0; position: relative; z-index: 1; }
   50%     { transform:scale(1.28); opacity:1; }
 }
 
+/* ===================== FOUNDER PHOTO ===================== */
+.founder-photo-wrap {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 36px;
+  position: relative;
+  z-index: 1;
+}
+
+.founder-photo {
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2.5px solid rgba(127,255,212,0.45);
+  box-shadow:
+    0 0 0 6px rgba(127,255,212,0.07),
+    0 0 48px rgba(127,255,212,0.22),
+    0 12px 40px rgba(0,0,0,0.5);
+  transition: transform 0.5s cubic-bezier(.34,1.56,.64,1), box-shadow 0.5s;
+  display: block;
+}
+
+.founder-block:hover .founder-photo {
+  transform: scale(1.06);
+  box-shadow:
+    0 0 0 8px rgba(127,255,212,0.1),
+    0 0 64px rgba(127,255,212,0.35),
+    0 16px 50px rgba(0,0,0,0.55);
+}
+
+.founder-avatar-img {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid rgba(127,255,212,0.4);
+  flex-shrink: 0;
+}
+
 .founder-text {
   font-family: 'Cormorant Garamond', serif;
   font-size: 1.35rem; font-style: italic; font-weight: 300;
@@ -531,16 +571,6 @@ section { padding: 110px 0; position: relative; z-index: 1; }
 .founder-sig {
   display: flex; align-items: center; gap: 14px;
   position: relative; z-index: 1;
-}
-
-.founder-avatar {
-  width: 44px; height: 44px; border-radius: 50%;
-  background: linear-gradient(135deg, var(--mintd), var(--n3));
-  border: 2px solid rgba(127,255,212,0.4);
-  display: flex; align-items: center; justify-content: center;
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 1.1rem; font-weight: 600; color: var(--mint);
-  flex-shrink: 0;
 }
 
 .founder-name {
@@ -958,6 +988,7 @@ footer {
   .app-card  { padding: 30px 20px; }
   .app-features { grid-template-columns: 1fr; }
   .founder-block { padding: 44px 28px; }
+  .founder-photo { width: 100px; height: 100px; }
   .feedback-box  { padding: 52px 22px; }
   .feedback-card { padding: 36px 28px 30px; }
   .btn-row { flex-direction: column; align-items: flex-start; }
@@ -1017,6 +1048,16 @@ footer {
     <span class="section-label reveal">Why This Exists</span>
     <h2 class="section-title reveal">A note from the <em>founder.</em></h2>
     <div class="founder-block reveal">
+
+      <!-- ✅ FOUNDER PHOTO - Big circle at top -->
+      <div class="founder-photo-wrap">
+        <img
+          src="https://raw.githubusercontent.com/AronMicko/aronmickolabs/main/founder.png.png"
+          alt="Aron Micko Boquiren"
+          class="founder-photo"
+        />
+      </div>
+
       <p class="founder-text">
         I know what anxiety feels like. I know what it is like to wake up with your heart
         racing, not knowing why. I know what panic attacks feel like in the middle of the day
@@ -1034,7 +1075,12 @@ footer {
         that is enough for me.
       </p>
       <div class="founder-sig">
-        <div class="founder-avatar">AM</div>
+        <!-- ✅ FOUNDER PHOTO - Small avatar in signature -->
+        <img
+          src="https://raw.githubusercontent.com/AronMicko/aronmickolabs/main/founder.png.png"
+          alt="Aron Micko Boquiren"
+          class="founder-avatar-img"
+        />
         <div class="founder-info">
           <div class="founder-name">Aron Micko Boquiren</div>
           <div class="founder-role">Founder · Aron Micko Labs</div>
@@ -1180,7 +1226,6 @@ footer {
           <li>Simple peaceful interface</li>
         </ul>
 
-        <!-- Feature Ratings -->
         <div class="feature-ratings" id="ratings-serenara">
           <div class="feature-ratings-title">⭐ Tester Feature Ratings</div>
           <div class="rating-row">
@@ -1639,7 +1684,6 @@ footer {
       if(e.isIntersecting){
         e.target.classList.add('visible');
         io.unobserve(e.target);
-        // Animate rating bars
         const bars = e.target.querySelectorAll('.rating-bar');
         if(bars.length){
           bars.forEach((bar, i) => {
@@ -1650,7 +1694,6 @@ footer {
     });
   }, {threshold: 0.08});
   document.querySelectorAll('.reveal').forEach(el => io.observe(el));
-  // Also observe rating bars inside app cards separately
   document.querySelectorAll('.app-card').forEach(card => {
     const barObs = new IntersectionObserver(entries => {
       entries.forEach(e => {
@@ -1695,7 +1738,6 @@ function copyLink(url, btn, instrId) {
       btn.classList.remove('copied');
     }, 2800);
   }).catch(() => {
-    // fallback
     const ta = document.createElement('textarea');
     ta.value = url; ta.style.position = 'fixed'; ta.style.opacity = '0';
     document.body.appendChild(ta); ta.select();
@@ -1745,7 +1787,7 @@ function resetAutoPlay() {
 
 autoTimer = setInterval(() => moveCarousel(1), 6000);
 
-// Touch/swipe support
+/* Touch/swipe support */
 (function(){
   const track = document.getElementById('carouselTrack');
   let startX = 0;
