@@ -4,17 +4,19 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Aron Micko Labs · Beta Testing Program</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
 <style>
 :root {
   --mint:   #7FFFD4;
   --mintd:  #3CB8A0;
-  --navy:   #060D18;
-  --n2:     #0A1628;
-  --n3:     #0D2137;
-  --white:  #F0F8F4;
+  --navy:   #040A14;
+  --n2:     #081020;
+  --n3:     #0C1A30;
+  --white:  #EEF5F1;
   --warn:   #FFB347;
   --gold:   #C9A84C;
+  --glass:  rgba(12,26,48,0.55);
+  --border: rgba(127,255,212,0.08);
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -23,212 +25,218 @@ html { scroll-behavior: smooth; }
 body {
   background: var(--navy);
   color: var(--white);
-  font-family: 'DM Sans', sans-serif;
-  font-weight: 300;
+  font-family: 'Syne', sans-serif;
+  font-weight: 400;
   line-height: 1.7;
   overflow-x: hidden;
 }
 
-#stars { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
-
-.cursor-glow {
+/* ======= 3D GRID BACKGROUND ======= */
+#bg-canvas {
   position: fixed;
-  width: 400px; height: 400px; border-radius: 50%;
-  background: radial-gradient(circle, rgba(127,255,212,0.04) 0%, transparent 70%);
-  pointer-events: none; z-index: 0;
-  transform: translate(-50%,-50%);
-  transition: left 0.06s, top 0.06s;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
 }
 
-/* NAV */
+/* ======= NAV ======= */
 nav {
   position: sticky; top: 0; z-index: 100;
-  backdrop-filter: blur(28px);
-  background: rgba(6,13,24,0.92);
-  border-bottom: 1px solid rgba(127,255,212,0.07);
-  padding: 16px 40px;
+  backdrop-filter: blur(32px) saturate(1.4);
+  background: rgba(4,10,20,0.88);
+  border-bottom: 1px solid var(--border);
+  padding: 14px 48px;
   display: flex; align-items: center; justify-content: space-between;
-  animation: slideDown 0.9s cubic-bezier(.16,1,.3,1) forwards;
+  animation: slideDown 0.8s cubic-bezier(.16,1,.3,1) forwards;
 }
 
 @keyframes slideDown {
-  from { opacity:0; transform:translateY(-24px); }
+  from { opacity:0; transform:translateY(-20px); }
   to   { opacity:1; transform:translateY(0); }
 }
 
 .nav-brand {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 1.15rem; font-weight: 600;
-  color: var(--mint); letter-spacing: 0.08em;
+  font-family: 'Instrument Serif', serif;
+  font-size: 1.2rem;
+  color: var(--mint);
   text-decoration: none;
+  letter-spacing: 0.02em;
 }
 
 .nav-badge {
   display: inline-flex; align-items: center; gap: 7px;
-  background: rgba(255,179,71,0.1);
-  border: 1px solid rgba(255,179,71,0.3);
-  border-radius: 100px; padding: 5px 14px;
-  font-size: 0.67rem; letter-spacing: 0.16em;
+  border: 1px solid rgba(255,179,71,0.28);
+  border-radius: 100px; padding: 5px 16px;
+  font-size: 0.62rem; letter-spacing: 0.22em;
   text-transform: uppercase; color: var(--warn);
+  background: rgba(255,179,71,0.06);
 }
 
-.nav-badge-dot {
-  width: 6px; height: 6px; border-radius: 50%;
+.pulse-dot {
+  width: 5px; height: 5px; border-radius: 50%;
   background: var(--warn);
-  animation: blink 1.5s ease-in-out infinite;
+  animation: blink 1.6s ease-in-out infinite;
 }
 
-@keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0.25;} }
+@keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0.2;} }
 
+/* ======= WRAP ======= */
 .wrap {
   position: relative; z-index: 1;
-  max-width: 980px; margin: 0 auto; padding: 0 32px;
+  max-width: 1000px; margin: 0 auto; padding: 0 36px;
 }
 
-/* HERO */
+/* ======= HERO ======= */
 .hero {
-  min-height: 96vh;
+  min-height: 95vh;
   display: flex; align-items: center; justify-content: center;
-  text-align: center; padding: 80px 32px 120px;
+  text-align: center; padding: 80px 32px 100px;
   position: relative; z-index: 1;
 }
 
-.hero-inner { max-width: 780px; }
+.hero-inner { max-width: 800px; }
 
-.dove-wrap {
-  margin-bottom: 36px; opacity: 0;
-  animation: floatIn 1.1s 0.1s cubic-bezier(.34,1.56,.64,1) forwards;
+.hero-icon-wrap {
+  margin-bottom: 40px;
+  opacity: 0;
+  animation: floatIn 1s 0.1s cubic-bezier(.34,1.56,.64,1) forwards;
 }
 
 @keyframes floatIn {
-  from { opacity:0; transform:translateY(-36px) scale(0.7); }
+  from { opacity:0; transform:translateY(-30px) scale(0.7); }
   to   { opacity:1; transform:translateY(0) scale(1); }
 }
 
-.dove-glow {
-  display: inline-block; font-size: 5.5rem;
-  animation: doveFloat 4s ease-in-out infinite;
-  filter: drop-shadow(0 0 36px rgba(127,255,212,0.65));
+.hero-glyph {
+  display: inline-flex;
+  align-items: center; justify-content: center;
+  width: 96px; height: 96px;
+  border-radius: 28px;
+  background: linear-gradient(135deg, rgba(127,255,212,0.12), rgba(60,184,160,0.05));
+  border: 1px solid rgba(127,255,212,0.2);
+  font-size: 3rem;
+  animation: doveFloat 5s ease-in-out infinite;
+  box-shadow: 0 0 60px rgba(127,255,212,0.15), inset 0 1px 0 rgba(127,255,212,0.15);
 }
 
 @keyframes doveFloat {
-  0%,100% { transform: translateY(0) rotate(-2deg); }
-  50%      { transform: translateY(-16px) rotate(3deg); }
+  0%,100% { transform:translateY(0) rotate(-1deg); }
+  50%     { transform:translateY(-12px) rotate(2deg); }
 }
 
-.hero-badge {
+.hero-eyebrow {
   display: inline-flex; align-items: center; gap: 8px;
-  background: rgba(255,179,71,0.09);
-  border: 1px solid rgba(255,179,71,0.3);
-  border-radius: 100px; padding: 6px 18px;
-  font-size: 0.69rem; letter-spacing: 0.2em;
+  border: 1px solid rgba(255,179,71,0.25);
+  border-radius: 100px; padding: 5px 18px;
+  font-size: 0.62rem; letter-spacing: 0.24em;
   text-transform: uppercase; color: var(--warn);
+  background: rgba(255,179,71,0.06);
   margin-bottom: 28px;
-  opacity:0; animation: fadeUp 0.9s 0.25s forwards;
-}
-
-.blink-dot {
-  width: 6px; height: 6px; border-radius: 50%;
-  background: var(--warn);
-  animation: blink 1.5s ease-in-out infinite;
+  opacity:0; animation: fadeUp 0.8s 0.3s forwards;
 }
 
 .hero-title {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(2.8rem, 7.5vw, 5.4rem);
-  font-weight: 300; line-height: 1.06;
+  font-family: 'Instrument Serif', serif;
+  font-size: clamp(3rem, 7.5vw, 5.6rem);
+  font-weight: 400; line-height: 1.04;
   margin-bottom: 24px;
-  opacity:0; animation: fadeUp 0.9s 0.45s forwards;
+  opacity:0; animation: fadeUp 0.8s 0.5s forwards;
+  letter-spacing: -0.01em;
 }
 
 .hero-title em { font-style: italic; color: var(--mint); }
 
 .hero-sub {
-  font-size: 1.05rem; color: rgba(240,248,244,0.6);
-  max-width: 560px; margin: 0 auto 24px;
-  opacity:0; animation: fadeUp 0.9s 0.65s forwards;
+  font-size: 1rem; color: rgba(238,245,241,0.55);
+  max-width: 520px; margin: 0 auto 28px;
+  opacity:0; animation: fadeUp 0.8s 0.7s forwards;
+  font-weight: 400; line-height: 1.8;
 }
 
 .hero-notice {
   display: inline-flex; align-items: center; gap: 10px;
-  background: rgba(127,255,212,0.07);
-  border: 1px solid rgba(127,255,212,0.18);
-  border-radius: 14px; padding: 12px 22px;
-  font-size: 0.82rem; color: rgba(240,248,244,0.6);
-  margin-bottom: 52px;
-  opacity:0; animation: fadeUp 0.9s 0.82s forwards;
+  background: rgba(127,255,212,0.06);
+  border: 1px solid rgba(127,255,212,0.14);
+  border-radius: 12px; padding: 10px 20px;
+  font-size: 0.78rem; color: rgba(238,245,241,0.55);
+  margin-bottom: 48px;
+  opacity:0; animation: fadeUp 0.8s 0.9s forwards;
 }
 
-.hero-notice strong { color: var(--mint); font-weight: 500; }
+.hero-notice strong { color: var(--mint); font-weight: 600; }
 
 .hero-verse {
-  font-family: 'Cormorant Garamond', serif;
-  font-style: italic; font-size: 1rem; color: var(--mint);
-  opacity:0; animation: fadeUp 0.9s 1s forwards;
+  font-family: 'Instrument Serif', serif;
+  font-style: italic; font-size: 0.95rem; color: rgba(127,255,212,0.45);
+  opacity:0; animation: fadeUp 0.8s 1.05s forwards;
+  letter-spacing: 0.02em;
 }
 
 .scroll-cue {
-  position: absolute; bottom: 44px; left: 50%;
+  position: absolute; bottom: 40px; left: 50%;
   transform: translateX(-50%);
   display: flex; flex-direction: column; align-items: center; gap: 8px;
   opacity:0; animation: fadeUp 1s 1.4s forwards;
 }
 
 .scroll-cue span {
-  font-size: 0.59rem; letter-spacing: 0.24em;
-  text-transform: uppercase; color: rgba(127,255,212,0.35);
+  font-size: 0.55rem; letter-spacing: 0.28em;
+  text-transform: uppercase; color: rgba(127,255,212,0.3);
+  font-family: 'DM Mono', monospace;
 }
 
 .scroll-line {
-  width: 1px; height: 56px;
-  background: linear-gradient(to bottom, rgba(127,255,212,0.5), transparent);
-  animation: scrollPulse 2.2s ease-in-out infinite;
+  width: 1px; height: 50px;
+  background: linear-gradient(to bottom, rgba(127,255,212,0.45), transparent);
+  animation: scrollPulse 2.4s ease-in-out infinite;
 }
 
 @keyframes scrollPulse {
-  0%,100% { opacity:0.35; transform:scaleY(1); }
-  50%     { opacity:1;    transform:scaleY(1.22); }
+  0%,100% { opacity:0.35; } 50% { opacity:1; }
 }
 
+/* ======= DIVIDER ======= */
 hr.divider {
   border: none;
-  border-top: 1px solid rgba(127,255,212,0.07);
+  border-top: 1px solid var(--border);
   position: relative; z-index: 1;
 }
 
-section { padding: 110px 0; position: relative; z-index: 1; }
+section { padding: 100px 0; position: relative; z-index: 1; }
 
 .section-label {
-  font-size: 0.64rem; letter-spacing: 0.34em;
+  font-size: 0.6rem; letter-spacing: 0.36em;
   text-transform: uppercase; color: var(--mint);
-  margin-bottom: 16px; display: block;
+  margin-bottom: 14px; display: block;
+  font-family: 'DM Mono', monospace;
 }
 
 .section-title {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(2rem, 5vw, 3.3rem);
-  font-weight: 300; line-height: 1.12; margin-bottom: 20px;
+  font-family: 'Instrument Serif', serif;
+  font-size: clamp(2rem, 5vw, 3.4rem);
+  font-weight: 400; line-height: 1.1; margin-bottom: 20px;
+  letter-spacing: -0.01em;
 }
 
 .section-title em { font-style: italic; color: var(--mint); }
 
 .section-body {
-  color: rgba(240,248,244,0.58);
-  font-size: 0.96rem; max-width: 600px; line-height: 1.88;
+  color: rgba(238,245,241,0.52);
+  font-size: 0.94rem; max-width: 580px; line-height: 1.9;
 }
 
-/* STEPS */
-.steps-wrap { margin-top: 64px; display: grid; gap: 18px; }
+/* ======= STEPS ======= */
+.steps-wrap { margin-top: 60px; display: grid; gap: 14px; }
 
 .step-card {
-  display: grid; grid-template-columns: 68px 1fr;
-  gap: 0 24px;
-  background: rgba(13,33,55,0.55);
-  border: 1px solid rgba(127,255,212,0.09);
-  border-radius: 20px; padding: 30px 36px;
+  display: grid; grid-template-columns: 64px 1fr;
+  gap: 0 20px;
+  background: var(--glass);
+  border: 1px solid var(--border);
+  border-radius: 18px; padding: 28px 32px;
   position: relative; overflow: hidden;
-  transition: border-color 0.45s, transform 0.45s, box-shadow 0.45s;
-  backdrop-filter: blur(14px);
+  transition: border-color 0.4s, transform 0.4s, box-shadow 0.4s;
+  backdrop-filter: blur(20px);
 }
 
 .step-card::before {
@@ -240,200 +248,245 @@ section { padding: 110px 0; position: relative; z-index: 1; }
 }
 
 .step-card:hover {
-  border-color: rgba(127,255,212,0.28);
-  transform: translateX(8px);
-  box-shadow: -8px 0 48px rgba(127,255,212,0.05), 0 8px 36px rgba(0,0,0,0.28);
+  border-color: rgba(127,255,212,0.22);
+  transform: translateX(6px);
+  box-shadow: -6px 0 40px rgba(127,255,212,0.04), 0 8px 32px rgba(0,0,0,0.3);
 }
 
 .step-card:hover::before { opacity: 1; }
 
 .step-num {
   display: flex; align-items: center; justify-content: center;
-  width: 50px; height: 50px;
-  border: 1.5px solid rgba(127,255,212,0.28);
-  border-radius: 50%;
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 1.4rem; font-weight: 600; color: var(--mint);
-  background: rgba(127,255,212,0.05);
+  width: 46px; height: 46px;
+  border: 1px solid rgba(127,255,212,0.22);
+  border-radius: 14px;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.9rem; color: var(--mint);
+  background: rgba(127,255,212,0.04);
   flex-shrink: 0; align-self: start; margin-top: 2px;
   transition: background 0.4s, border-color 0.4s, transform 0.4s;
 }
 
 .step-card:hover .step-num {
-  background: rgba(127,255,212,0.12);
+  background: rgba(127,255,212,0.1);
   border-color: var(--mint);
-  transform: scale(1.1);
+  transform: scale(1.06);
 }
 
 .step-title {
-  font-size: 1.02rem; font-weight: 500;
+  font-size: 0.97rem; font-weight: 600;
   color: var(--white); margin-bottom: 8px;
 }
 
 .step-desc {
-  font-size: 0.87rem; color: rgba(240,248,244,0.56); line-height: 1.78;
+  font-size: 0.85rem; color: rgba(238,245,241,0.52); line-height: 1.8;
 }
 
-.step-desc strong { color: var(--mint); font-weight: 500; }
+.step-desc strong { color: var(--mint); font-weight: 600; }
 
 .step-tag {
   display: inline-flex; align-items: center; gap: 6px;
-  margin-top: 12px;
-  background: rgba(127,255,212,0.07);
-  border: 1px solid rgba(127,255,212,0.18);
-  border-radius: 8px; padding: 5px 12px;
-  font-size: 0.74rem; color: var(--mint); letter-spacing: 0.08em;
+  margin-top: 10px;
+  background: rgba(127,255,212,0.06);
+  border: 1px solid rgba(127,255,212,0.14);
+  border-radius: 8px; padding: 4px 10px;
+  font-size: 0.72rem; color: rgba(127,255,212,0.7);
+  font-family: 'DM Mono', monospace;
 }
 
-/* ===================== APPS ===================== */
-.apps-grid { display: grid; gap: 22px; margin-top: 64px; }
+/* ======= APPS ======= */
+.apps-grid { display: grid; gap: 20px; margin-top: 60px; }
 
 .app-card {
-  background: rgba(13,33,55,0.6);
-  border: 1px solid rgba(127,255,212,0.09);
-  border-radius: 24px; padding: 46px 42px;
+  background: var(--glass);
+  border: 1px solid var(--border);
+  border-radius: 24px; padding: 44px 40px;
   position: relative; overflow: hidden;
-  transition: border-color 0.45s, transform 0.45s, box-shadow 0.45s;
-  backdrop-filter: blur(16px);
+  transition: border-color 0.4s, transform 0.4s, box-shadow 0.4s;
+  backdrop-filter: blur(20px);
 }
 
 .app-card::before {
   content: '';
   position: absolute; top: 0; left: 0; right: 0; height: 1px;
-  background: linear-gradient(90deg, transparent 0%, var(--mint) 50%, transparent 100%);
-  opacity: 0; transition: opacity 0.45s;
-}
-
-.app-card::after {
-  content: '';
-  position: absolute; top: -80px; right: -80px;
-  width: 240px; height: 240px; border-radius: 50%;
-  background: radial-gradient(circle, rgba(127,255,212,0.07) 0%, transparent 70%);
-  opacity: 0; transition: opacity 0.45s;
-  pointer-events: none;
+  background: linear-gradient(90deg, transparent 0%, rgba(127,255,212,0.5) 50%, transparent 100%);
+  opacity: 0; transition: opacity 0.4s;
 }
 
 .app-card:hover {
-  border-color: rgba(127,255,212,0.3);
-  transform: translateY(-7px);
-  box-shadow: 0 32px 70px rgba(0,0,0,0.36), 0 0 50px rgba(127,255,212,0.06);
+  border-color: rgba(127,255,212,0.25);
+  transform: translateY(-6px);
+  box-shadow: 0 32px 80px rgba(0,0,0,0.4), 0 0 60px rgba(127,255,212,0.05);
 }
 
-.app-card:hover::before, .app-card:hover::after { opacity: 1; }
+.app-card:hover::before { opacity: 1; }
+
+.app-card.featured {
+  border-color: rgba(127,255,212,0.18);
+  background: rgba(12,26,48,0.7);
+}
+
+/* WHAT'S NEW topbar */
+.whats-new-bar {
+  display: flex; align-items: center; gap: 10px;
+  background: rgba(127,255,212,0.05);
+  border: 1px solid rgba(127,255,212,0.1);
+  border-radius: 10px; padding: 8px 16px;
+  margin-bottom: 28px;
+}
+
+.whats-new-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--mint);
+  box-shadow: 0 0 8px rgba(127,255,212,0.7);
+  animation: blink 1.6s ease-in-out infinite;
+  flex-shrink: 0;
+}
+
+.whats-new-label {
+  font-size: 10px; letter-spacing: 0.24em;
+  text-transform: uppercase; color: rgba(127,255,212,0.5);
+  font-family: 'DM Mono', monospace;
+}
+
+.version-chip {
+  margin-left: auto;
+  background: rgba(201,168,76,0.1);
+  border: 1px solid rgba(201,168,76,0.28);
+  border-radius: 100px; padding: 2px 12px;
+  font-size: 9px; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--gold);
+  font-family: 'DM Mono', monospace;
+}
 
 .app-header {
-  display: flex; align-items: center; gap: 18px; margin-bottom: 20px;
+  display: flex; align-items: center; gap: 18px; margin-bottom: 18px;
 }
 
 .app-emoji {
-  font-size: 2.8rem; flex-shrink: 0;
-  filter: drop-shadow(0 0 12px rgba(127,255,212,0.32));
-  transition: transform 0.45s, filter 0.45s;
+  font-size: 2.6rem; flex-shrink: 0;
+  filter: drop-shadow(0 0 16px rgba(127,255,212,0.3));
+  transition: transform 0.4s, filter 0.4s;
+  display: flex; align-items: center; justify-content: center;
+  width: 66px; height: 66px;
+  background: rgba(127,255,212,0.05);
+  border: 1px solid rgba(127,255,212,0.12);
+  border-radius: 18px;
 }
 
 .app-card:hover .app-emoji {
-  transform: scale(1.16) rotate(-6deg);
-  filter: drop-shadow(0 0 26px rgba(127,255,212,0.65));
+  transform: scale(1.12) rotate(-5deg);
+  filter: drop-shadow(0 0 24px rgba(127,255,212,0.6));
 }
 
 .app-name {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 1.72rem; font-weight: 600;
-  color: var(--white); line-height: 1.2; margin-bottom: 3px;
+  font-family: 'Instrument Serif', serif;
+  font-size: 1.8rem; font-weight: 400;
+  color: var(--white); line-height: 1.15; margin-bottom: 4px;
+  letter-spacing: -0.01em;
 }
 
 .app-tagline {
-  font-size: 0.74rem; color: var(--mint);
-  letter-spacing: 0.14em; text-transform: uppercase;
+  font-size: 0.65rem; color: var(--mint);
+  letter-spacing: 0.2em; text-transform: uppercase;
+  font-family: 'DM Mono', monospace;
 }
 
 .warn-box {
   display: flex; gap: 12px; align-items: flex-start;
-  background: rgba(255,179,71,0.06);
-  border: 1px solid rgba(255,179,71,0.22);
-  border-radius: 12px; padding: 14px 18px;
-  margin-bottom: 22px;
-  font-size: 0.81rem; color: rgba(255,179,71,0.82); line-height: 1.68;
+  background: rgba(255,179,71,0.05);
+  border: 1px solid rgba(255,179,71,0.18);
+  border-radius: 10px; padding: 12px 16px;
+  margin-bottom: 20px;
+  font-size: 0.79rem; color: rgba(255,179,71,0.75); line-height: 1.68;
 }
 
-.warn-icon { flex-shrink: 0; font-size: 1.1rem; margin-top: 1px; }
-.warn-box strong { color: var(--warn); font-weight: 500; }
+.warn-icon { flex-shrink: 0; }
+.warn-box strong { color: var(--warn); font-weight: 600; }
 
 .app-desc {
-  font-size: 0.9rem; color: rgba(240,248,244,0.58);
-  line-height: 1.84; margin-bottom: 24px;
+  font-size: 0.88rem; color: rgba(238,245,241,0.55);
+  line-height: 1.88; margin-bottom: 22px;
 }
 
 .app-features {
   list-style: none;
   display: grid; grid-template-columns: 1fr 1fr;
-  gap: 9px 18px; margin-bottom: 32px;
+  gap: 8px 16px; margin-bottom: 30px;
 }
 
 .app-features li {
-  font-size: 0.8rem; color: rgba(240,248,244,0.63);
+  font-size: 0.78rem; color: rgba(238,245,241,0.58);
   display: flex; align-items: center; gap: 8px;
 }
 
 .app-features li::before {
   content: '';
-  width: 5px; height: 5px; border-radius: 50%;
+  width: 4px; height: 4px; border-radius: 50%;
   background: var(--mint); flex-shrink: 0;
   box-shadow: 0 0 6px rgba(127,255,212,0.5);
 }
 
-/* Button row */
-.btn-row {
-  display: flex; gap: 12px; flex-wrap: wrap; align-items: center;
+.badge-new {
+  display: inline-flex; align-items: center;
+  background: rgba(127,255,212,0.1);
+  border: 1px solid rgba(127,255,212,0.24);
+  border-radius: 5px; padding: 1px 6px;
+  font-size: 9px; letter-spacing: 0.1em;
+  color: var(--mint);
+  font-family: 'DM Mono', monospace;
 }
 
-.btn-test {
-  display: inline-flex; align-items: center; gap: 12px;
-  padding: 16px 32px; border-radius: 100px;
-  font-size: 0.88rem; font-weight: 600; letter-spacing: 0.05em;
+/* BUTTONS */
+.btn-row {
+  display: flex; gap: 10px; flex-wrap: wrap; align-items: center;
+}
+
+.btn-primary {
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 14px 28px; border-radius: 100px;
+  font-size: 0.85rem; font-weight: 700; letter-spacing: 0.04em;
   text-decoration: none; color: var(--navy);
   background: var(--mint);
   border: none; cursor: pointer;
-  transition: all 0.38s;
-  position: relative; overflow: hidden;
-  box-shadow: 0 0 0 0 rgba(127,255,212,0);
-}
-
-.btn-test::before {
-  content: '';
-  position: absolute; inset: 0;
-  background: linear-gradient(120deg, transparent 25%, rgba(255,255,255,0.3) 50%, transparent 75%);
-  transform: translateX(-100%);
-  transition: transform 0.58s;
-}
-
-.btn-test:hover {
-  background: #9fffdf;
-  transform: translateY(-3px);
-  box-shadow: 0 14px 44px rgba(127,255,212,0.42);
-}
-
-.btn-test:hover::before { transform: translateX(100%); }
-
-/* COPY LINK BUTTON */
-.btn-copy {
-  display: inline-flex; align-items: center; gap: 9px;
-  padding: 16px 24px; border-radius: 100px;
-  font-size: 0.85rem; font-weight: 500; letter-spacing: 0.04em;
-  color: var(--mint);
-  background: rgba(127,255,212,0.08);
-  border: 1.5px solid rgba(127,255,212,0.28);
-  cursor: pointer;
   transition: all 0.35s;
   position: relative; overflow: hidden;
+  font-family: 'Syne', sans-serif;
+}
+
+.btn-primary::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(120deg, transparent 30%, rgba(255,255,255,0.3) 50%, transparent 70%);
+  transform: translateX(-100%);
+  transition: transform 0.55s;
+}
+
+.btn-primary:hover {
+  background: #9fffdf;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px rgba(127,255,212,0.4);
+}
+
+.btn-primary:hover::after { transform: translateX(100%); }
+
+.btn-copy {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 14px 22px; border-radius: 100px;
+  font-size: 0.82rem; font-weight: 600;
+  color: var(--mint);
+  background: rgba(127,255,212,0.07);
+  border: 1px solid rgba(127,255,212,0.22);
+  cursor: pointer; transition: all 0.32s;
+  font-family: 'Syne', sans-serif;
   white-space: nowrap;
 }
 
 .btn-copy:hover {
-  background: rgba(127,255,212,0.15);
-  border-color: var(--mint);
-  transform: translateY(-3px);
-  box-shadow: 0 10px 30px rgba(127,255,212,0.18);
+  background: rgba(127,255,212,0.14);
+  border-color: rgba(127,255,212,0.5);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 26px rgba(127,255,212,0.15);
 }
 
 .btn-copy.copied {
@@ -442,199 +495,50 @@ section { padding: 110px 0; position: relative; z-index: 1; }
   border-color: var(--mint);
 }
 
-.copy-icon { font-size: 1rem; transition: transform 0.3s; }
-.btn-copy:hover .copy-icon { transform: scale(1.2); }
-
-/* Copy instruction tooltip */
 .copy-instruction {
   display: none;
   margin-top: 14px;
   padding: 14px 18px;
-  background: rgba(127,255,212,0.07);
-  border: 1px solid rgba(127,255,212,0.2);
-  border-radius: 14px;
-  font-size: 0.8rem;
-  color: rgba(240,248,244,0.75);
-  line-height: 1.72;
+  background: rgba(127,255,212,0.06);
+  border: 1px solid rgba(127,255,212,0.16);
+  border-radius: 12px;
+  font-size: 0.78rem;
+  color: rgba(238,245,241,0.7);
+  line-height: 1.76;
   animation: fadeUp 0.4s cubic-bezier(.16,1,.3,1) forwards;
 }
 
 .copy-instruction.show { display: block; }
-.copy-instruction strong { color: var(--mint); }
+.copy-instruction strong { color: var(--mint); font-weight: 600; }
 .copy-instruction ol { padding-left: 18px; margin-top: 6px; }
 .copy-instruction ol li { margin-bottom: 4px; }
 
-.btn-icon {
-  display: inline-flex; align-items: center; justify-content: center;
-  width: 26px; height: 26px;
-  background: rgba(6,13,24,0.18);
-  border-radius: 50%; font-size: 0.82rem; flex-shrink: 0;
-}
-
-.app-number {
-  position: absolute; top: 26px; right: 34px;
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 6rem; font-weight: 300;
-  color: rgba(127,255,212,0.04);
-  line-height: 1; pointer-events: none; user-select: none;
-  transition: color 0.45s, transform 0.45s;
-}
-
-.app-card:hover .app-number {
-  color: rgba(127,255,212,0.09);
-  transform: scale(1.06);
-}
-
-/* FOUNDER */
-.founder-block {
-  margin-top: 64px;
-  background: rgba(13,33,55,0.5);
-  border: 1px solid rgba(127,255,212,0.1);
-  border-radius: 26px; padding: 64px 60px;
-  position: relative; overflow: hidden;
-  transition: border-color 0.4s;
-}
-
-.founder-block:hover { border-color: rgba(127,255,212,0.22); }
-
-.founder-block::before {
-  content: '\201C';
-  position: absolute; top: -20px; left: 30px;
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 15rem; font-weight: 300;
-  color: rgba(127,255,212,0.04);
-  line-height: 1; pointer-events: none;
-}
-
-.founder-block::after {
-  content: '';
-  position: absolute; bottom: -50px; right: -50px;
-  width: 280px; height: 280px; border-radius: 50%;
-  background: radial-gradient(circle, rgba(127,255,212,0.06) 0%, transparent 70%);
-  pointer-events: none;
-  animation: orbPulse 5.5s ease-in-out infinite;
-}
-
-@keyframes orbPulse {
-  0%,100% { transform:scale(1);    opacity:0.5; }
-  50%     { transform:scale(1.28); opacity:1; }
-}
-
-.founder-photo-wrap {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 36px;
-  position: relative;
-  z-index: 1;
-}
-
-.founder-photo {
-  width: 130px; height: 130px;
-  border-radius: 50%; object-fit: cover;
-  border: 2.5px solid rgba(127,255,212,0.45);
-  box-shadow: 0 0 0 6px rgba(127,255,212,0.07), 0 0 48px rgba(127,255,212,0.22), 0 12px 40px rgba(0,0,0,0.5);
-  transition: transform 0.5s cubic-bezier(.34,1.56,.64,1), box-shadow 0.5s;
-  display: block;
-}
-
-.founder-block:hover .founder-photo {
-  transform: scale(1.06);
-  box-shadow: 0 0 0 8px rgba(127,255,212,0.1), 0 0 64px rgba(127,255,212,0.35), 0 16px 50px rgba(0,0,0,0.55);
-}
-
-.founder-avatar-img {
-  width: 44px; height: 44px;
-  border-radius: 50%; object-fit: cover;
-  border: 2px solid rgba(127,255,212,0.4);
-  flex-shrink: 0;
-}
-
-.founder-text {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 1.35rem; font-style: italic; font-weight: 300;
-  line-height: 1.82; color: rgba(240,248,244,0.83);
-  margin-bottom: 36px; position: relative; z-index: 1;
-}
-
-.founder-sig {
-  display: flex; align-items: center; gap: 14px;
-  position: relative; z-index: 1;
-}
-
-.founder-name {
-  font-size: 0.84rem; font-weight: 500;
-  color: var(--mint); letter-spacing: 0.1em;
-}
-
-.founder-role {
-  font-size: 0.74rem; color: rgba(240,248,244,0.45);
-  letter-spacing: 0.08em;
-}
-
-/* REMINDERS */
-.reminders-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-  gap: 16px; margin-top: 56px;
-}
-
-.reminder-card {
-  padding: 30px 26px;
-  border: 1px solid rgba(127,255,212,0.08);
-  border-radius: 18px; background: rgba(10,22,40,0.5);
-  transition: border-color 0.38s, transform 0.38s, background 0.38s;
-}
-
-.reminder-card:hover {
-  border-color: rgba(127,255,212,0.24);
-  transform: translateY(-4px);
-  background: rgba(13,33,55,0.65);
-}
-
-.reminder-icon {
-  font-size: 1.7rem; margin-bottom: 16px; display: block;
-  transition: transform 0.38s;
-}
-
-.reminder-card:hover .reminder-icon { transform: scale(1.2) rotate(-6deg); }
-
-.reminder-title {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 1.1rem; font-weight: 600;
-  color: var(--mint); margin-bottom: 9px;
-}
-
-.reminder-desc {
-  font-size: 0.8rem; color: rgba(240,248,244,0.48); line-height: 1.74;
-}
-
-/* FEATURE RATINGS */
+/* Feature Ratings */
 .feature-ratings {
-  margin-top: 28px;
-  padding: 22px 24px;
-  background: rgba(127,255,212,0.04);
-  border: 1px solid rgba(127,255,212,0.12);
-  border-radius: 16px;
+  margin-top: 26px; padding: 20px 22px;
+  background: rgba(127,255,212,0.03);
+  border: 1px solid rgba(127,255,212,0.1);
+  border-radius: 14px;
 }
 
 .feature-ratings-title {
-  font-size: 0.7rem; letter-spacing: 0.22em;
-  text-transform: uppercase; color: rgba(127,255,212,0.55);
-  margin-bottom: 16px;
+  font-size: 0.62rem; letter-spacing: 0.24em;
+  text-transform: uppercase; color: rgba(127,255,212,0.45);
+  margin-bottom: 14px; font-family: 'DM Mono', monospace;
 }
 
 .rating-row {
-  display: flex; align-items: center; gap: 12px;
-  margin-bottom: 11px;
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 10px;
 }
 
 .rating-label {
-  font-size: 0.79rem; color: rgba(240,248,244,0.55);
-  width: 120px; flex-shrink: 0;
+  font-size: 0.76rem; color: rgba(238,245,241,0.48);
+  width: 130px; flex-shrink: 0;
 }
 
 .rating-bar-wrap {
-  flex: 1; height: 5px; background: rgba(127,255,212,0.1);
+  flex: 1; height: 4px; background: rgba(127,255,212,0.08);
   border-radius: 100px; overflow: hidden;
 }
 
@@ -642,326 +546,451 @@ section { padding: 110px 0; position: relative; z-index: 1; }
   height: 100%; border-radius: 100px;
   background: linear-gradient(90deg, var(--mintd), var(--mint));
   transform: scaleX(0); transform-origin: left;
-  transition: transform 1.1s cubic-bezier(.16,1,.3,1);
-  box-shadow: 0 0 8px rgba(127,255,212,0.4);
+  transition: transform 1s cubic-bezier(.16,1,.3,1);
+  box-shadow: 0 0 8px rgba(127,255,212,0.35);
 }
 
 .rating-bar.animated { transform: scaleX(1); }
 
 .rating-score {
-  font-size: 0.78rem; font-weight: 600;
-  color: var(--mint); width: 30px; text-align: right;
+  font-size: 0.75rem; font-weight: 600;
+  color: var(--mint); width: 28px; text-align: right;
+  font-family: 'DM Mono', monospace;
 }
 
-/* TESTER FEEDBACK CAROUSEL */
-#feedback-section { padding: 110px 0; position: relative; z-index: 1; }
-
-.carousel-outer {
-  position: relative; margin-top: 64px; overflow: hidden;
+/* App number watermark */
+.app-number {
+  position: absolute; top: 24px; right: 32px;
+  font-family: 'Instrument Serif', serif;
+  font-size: 5.5rem; font-weight: 400;
+  color: rgba(127,255,212,0.03);
+  line-height: 1; pointer-events: none; user-select: none;
+  transition: color 0.4s;
 }
+
+.app-card:hover .app-number { color: rgba(127,255,212,0.07); }
+
+/* Update guide */
+.update-guide {
+  background: rgba(255,179,71,0.04);
+  border: 1px solid rgba(255,179,71,0.16);
+  border-radius: 12px; padding: 16px 18px;
+  margin-bottom: 22px;
+}
+
+.update-guide-title {
+  font-size: 10px; letter-spacing: 0.22em;
+  text-transform: uppercase; color: rgba(255,179,71,0.6);
+  margin-bottom: 12px; font-family: 'DM Mono', monospace;
+}
+
+.update-step {
+  display: flex; gap: 12px; align-items: flex-start;
+  font-size: 12.5px; color: rgba(238,245,241,0.58);
+  margin-bottom: 9px;
+}
+
+.update-step:last-child { margin-bottom: 0; }
+
+.update-step-num {
+  width: 20px; height: 20px;
+  border-radius: 50%; border: 1px solid rgba(127,255,212,0.25);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'DM Mono', monospace;
+  font-size: 10px; color: var(--mint); flex-shrink: 0;
+}
+
+/* ======= FOUNDER ======= */
+.founder-block {
+  margin-top: 60px;
+  background: var(--glass);
+  border: 1px solid var(--border);
+  border-radius: 24px; padding: 60px 56px;
+  position: relative; overflow: hidden;
+  backdrop-filter: blur(20px);
+  transition: border-color 0.4s;
+}
+
+.founder-block:hover { border-color: rgba(127,255,212,0.18); }
+
+.founder-block::before {
+  content: '\201C';
+  position: absolute; top: -30px; left: 24px;
+  font-family: 'Instrument Serif', serif;
+  font-size: 14rem; font-weight: 400;
+  color: rgba(127,255,212,0.035);
+  line-height: 1; pointer-events: none;
+}
+
+.founder-photo-wrap {
+  display: flex; justify-content: center;
+  margin-bottom: 36px; position: relative; z-index: 1;
+}
+
+.founder-photo {
+  width: 120px; height: 120px;
+  border-radius: 50%; object-fit: cover;
+  border: 2px solid rgba(127,255,212,0.4);
+  box-shadow: 0 0 0 6px rgba(127,255,212,0.06), 0 0 48px rgba(127,255,212,0.18), 0 12px 40px rgba(0,0,0,0.5);
+  transition: transform 0.5s, box-shadow 0.5s;
+}
+
+.founder-block:hover .founder-photo {
+  transform: scale(1.05);
+  box-shadow: 0 0 0 8px rgba(127,255,212,0.09), 0 0 60px rgba(127,255,212,0.28), 0 16px 50px rgba(0,0,0,0.55);
+}
+
+.founder-text {
+  font-family: 'Instrument Serif', serif;
+  font-size: 1.28rem; font-style: italic; font-weight: 400;
+  line-height: 1.85; color: rgba(238,245,241,0.8);
+  margin-bottom: 32px; position: relative; z-index: 1;
+}
+
+.founder-sig {
+  display: flex; align-items: center; gap: 14px;
+  position: relative; z-index: 1;
+}
+
+.founder-avatar-img {
+  width: 42px; height: 42px;
+  border-radius: 50%; object-fit: cover;
+  border: 2px solid rgba(127,255,212,0.35);
+  flex-shrink: 0;
+}
+
+.founder-name {
+  font-size: 0.82rem; font-weight: 600;
+  color: var(--mint); letter-spacing: 0.08em;
+}
+
+.founder-role {
+  font-size: 0.7rem; color: rgba(238,245,241,0.38);
+  font-family: 'DM Mono', monospace;
+}
+
+/* ======= REMINDERS ======= */
+.reminders-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 14px; margin-top: 52px;
+}
+
+.reminder-card {
+  padding: 28px 24px;
+  border: 1px solid var(--border);
+  border-radius: 16px; background: rgba(8,16,32,0.5);
+  transition: border-color 0.35s, transform 0.35s, background 0.35s;
+  backdrop-filter: blur(16px);
+}
+
+.reminder-card:hover {
+  border-color: rgba(127,255,212,0.2);
+  transform: translateY(-4px);
+  background: rgba(12,26,48,0.65);
+}
+
+.reminder-icon {
+  font-size: 1.6rem; margin-bottom: 14px; display: block;
+  transition: transform 0.35s;
+}
+
+.reminder-card:hover .reminder-icon { transform: scale(1.18) rotate(-5deg); }
+
+.reminder-title {
+  font-size: 0.9rem; font-weight: 700;
+  color: var(--mint); margin-bottom: 8px;
+}
+
+.reminder-desc {
+  font-size: 0.78rem; color: rgba(238,245,241,0.44); line-height: 1.76;
+}
+
+/* ======= CAROUSEL ======= */
+#feedback-section { padding: 100px 0; position: relative; z-index: 1; }
+
+.carousel-outer { position: relative; margin-top: 60px; overflow: hidden; }
 
 .carousel-track {
   display: flex;
-  transition: transform 0.65s cubic-bezier(.16,1,.3,1);
+  transition: transform 0.6s cubic-bezier(.16,1,.3,1);
 }
 
-.feedback-slide { min-width: 100%; padding: 0 4px; }
+.feedback-slide { min-width: 100%; padding: 0 3px; }
 
 .feedback-card {
-  background: rgba(13,33,55,0.6);
-  border: 1px solid rgba(127,255,212,0.12);
-  border-radius: 26px; padding: 52px 52px 44px;
+  background: var(--glass);
+  border: 1px solid rgba(127,255,212,0.1);
+  border-radius: 24px; padding: 48px 48px 42px;
   position: relative; overflow: hidden;
-  backdrop-filter: blur(16px);
-  transition: border-color 0.4s;
+  backdrop-filter: blur(20px);
 }
 
 .feedback-card::before {
   content: '\201C';
-  position: absolute; top: -10px; left: 28px;
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 11rem; font-weight: 300;
-  color: rgba(127,255,212,0.05);
+  position: absolute; top: -15px; left: 24px;
+  font-family: 'Instrument Serif', serif;
+  font-size: 10rem; font-weight: 400;
+  color: rgba(127,255,212,0.04);
   line-height: 1; pointer-events: none;
-}
-
-.feedback-card::after {
-  content: '';
-  position: absolute; bottom: -60px; right: -60px;
-  width: 260px; height: 260px; border-radius: 50%;
-  background: radial-gradient(circle, rgba(127,255,212,0.05) 0%, transparent 70%);
-  pointer-events: none;
 }
 
 .fb-header {
   display: flex; align-items: flex-start;
-  justify-content: space-between; gap: 20px;
-  margin-bottom: 26px; flex-wrap: wrap;
+  justify-content: space-between; gap: 16px;
+  margin-bottom: 22px; flex-wrap: wrap;
 }
 
-.fb-reviewer { display: flex; align-items: center; gap: 14px; }
+.fb-reviewer { display: flex; align-items: center; gap: 12px; }
 
 .fb-avatar {
-  width: 46px; height: 46px; border-radius: 50%;
+  width: 44px; height: 44px; border-radius: 12px;
   display: flex; align-items: center; justify-content: center;
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 1.1rem; font-weight: 600; color: var(--navy);
+  font-family: 'Instrument Serif', serif;
+  font-size: 1rem; font-weight: 400; color: var(--navy);
   flex-shrink: 0;
 }
 
-.fb-name { font-size: 0.95rem; font-weight: 500; color: var(--white); margin-bottom: 3px; }
-.fb-meta { font-size: 0.73rem; color: rgba(240,248,244,0.4); letter-spacing: 0.05em; }
+.fb-name { font-size: 0.92rem; font-weight: 700; color: var(--white); margin-bottom: 3px; }
+.fb-meta { font-size: 0.69rem; color: rgba(238,245,241,0.36); font-family: 'DM Mono', monospace; }
 
 .fb-stars { display: flex; gap: 3px; align-items: center; flex-shrink: 0; }
-.star { font-size: 1.05rem; }
-
+.star { font-size: 0.95rem; }
 .fb-rating-label {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 0.9rem; color: var(--gold); margin-left: 6px; font-weight: 600;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.82rem; color: var(--gold); margin-left: 5px;
 }
 
 .fb-app-tag {
   display: inline-flex; align-items: center; gap: 6px;
-  background: rgba(127,255,212,0.08);
-  border: 1px solid rgba(127,255,212,0.18);
-  border-radius: 8px; padding: 5px 12px;
-  font-size: 0.73rem; color: var(--mint);
-  margin-bottom: 18px; letter-spacing: 0.08em;
+  background: rgba(127,255,212,0.06);
+  border: 1px solid rgba(127,255,212,0.15);
+  border-radius: 8px; padding: 4px 10px;
+  font-size: 0.7rem; color: var(--mint);
+  margin-bottom: 16px;
+  font-family: 'DM Mono', monospace;
 }
 
 .fb-body {
-  font-size: 0.9rem; color: rgba(240,248,244,0.68);
-  line-height: 1.88; margin-bottom: 28px;
+  font-size: 0.88rem; color: rgba(238,245,241,0.65);
+  line-height: 1.9; margin-bottom: 24px;
   position: relative; z-index: 1;
 }
 
-.fb-body p + p { margin-top: 14px; }
+.fb-body p + p { margin-top: 12px; }
 
 .fb-subhead {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 1rem; font-weight: 600; color: var(--mint);
-  margin: 18px 0 6px;
+  font-family: 'Instrument Serif', serif;
+  font-size: 0.98rem; font-weight: 400; color: var(--mint);
+  margin: 16px 0 6px; font-style: italic;
 }
 
 .fb-reply {
   display: flex; gap: 12px; align-items: flex-start;
-  background: rgba(127,255,212,0.06);
-  border: 1px solid rgba(127,255,212,0.14);
-  border-radius: 14px; padding: 16px 18px;
-  margin-top: 24px; position: relative; z-index: 1;
+  background: rgba(127,255,212,0.05);
+  border: 1px solid rgba(127,255,212,0.12);
+  border-radius: 12px; padding: 14px 16px;
+  margin-top: 22px; position: relative; z-index: 1;
 }
 
 .fb-reply-ava {
-  width: 34px; height: 34px; border-radius: 50%;
+  width: 32px; height: 32px; border-radius: 8px;
   background: linear-gradient(135deg, var(--mintd), var(--n3));
-  border: 1.5px solid rgba(127,255,212,0.35);
+  border: 1px solid rgba(127,255,212,0.3);
   display: flex; align-items: center; justify-content: center;
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 0.85rem; font-weight: 600; color: var(--mint);
+  font-family: 'Instrument Serif', serif;
+  font-size: 0.8rem; color: var(--mint);
   flex-shrink: 0; margin-top: 2px;
 }
 
-.fb-reply-name { font-size: 0.78rem; font-weight: 500; color: var(--mint); margin-bottom: 3px; letter-spacing: 0.08em; }
-.fb-reply-date { font-size: 0.68rem; color: rgba(240,248,244,0.3); margin-bottom: 6px; letter-spacing: 0.05em; }
-.fb-reply-text { font-size: 0.83rem; color: rgba(240,248,244,0.62); line-height: 1.7; }
+.fb-reply-name { font-size: 0.75rem; font-weight: 700; color: var(--mint); margin-bottom: 2px; }
+.fb-reply-date { font-size: 0.64rem; color: rgba(238,245,241,0.28); margin-bottom: 5px; font-family: 'DM Mono', monospace; }
+.fb-reply-text { font-size: 0.8rem; color: rgba(238,245,241,0.58); line-height: 1.7; }
 
 .fb-resolved {
-  display: inline-flex; align-items: center; gap: 6px;
-  margin-top: 10px;
-  background: rgba(127,255,212,0.1);
-  border: 1px solid rgba(127,255,212,0.22);
-  border-radius: 8px; padding: 4px 10px;
-  font-size: 0.7rem; color: var(--mint); letter-spacing: 0.1em;
+  display: inline-flex; align-items: center; gap: 5px;
+  margin-top: 8px;
+  background: rgba(127,255,212,0.09);
+  border: 1px solid rgba(127,255,212,0.2);
+  border-radius: 6px; padding: 3px 9px;
+  font-size: 0.65rem; color: var(--mint);
+  font-family: 'DM Mono', monospace;
 }
 
-/* ===== TRANSLATE BUTTON ===== */
+/* Translate button */
 .btn-translate {
   display: inline-flex; align-items: center; gap: 8px;
-  padding: 10px 20px; border-radius: 100px;
-  font-size: 0.78rem; font-weight: 500; letter-spacing: 0.06em;
+  padding: 9px 18px; border-radius: 100px;
+  font-size: 0.75rem; font-weight: 600;
   color: var(--mint);
-  background: rgba(127,255,212,0.07);
-  border: 1.5px solid rgba(127,255,212,0.22);
-  cursor: pointer;
-  transition: all 0.35s;
+  background: rgba(127,255,212,0.06);
+  border: 1px solid rgba(127,255,212,0.2);
+  cursor: pointer; transition: all 0.32s;
   position: relative; z-index: 1;
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Syne', sans-serif;
 }
 
 .btn-translate:hover {
-  background: rgba(127,255,212,0.14);
+  background: rgba(127,255,212,0.12);
   border-color: var(--mint);
   transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(127,255,212,0.16);
 }
 
-.btn-translate:disabled {
-  opacity: 0.5; cursor: not-allowed; transform: none;
-}
+.btn-translate:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
 
 .btn-translate.translated {
-  color: var(--navy);
-  background: var(--mint);
-  border-color: var(--mint);
+  color: var(--navy); background: var(--mint); border-color: var(--mint);
 }
 
-.translate-icon { font-size: 1rem; }
-
-/* Translated badge */
 .translated-badge {
   display: inline-flex; align-items: center; gap: 5px;
-  background: rgba(127,255,212,0.1);
-  border: 1px solid rgba(127,255,212,0.22);
-  border-radius: 6px; padding: 3px 9px;
-  font-size: 0.68rem; color: var(--mint);
-  letter-spacing: 0.1em; margin-left: 8px;
-  vertical-align: middle;
+  background: rgba(127,255,212,0.08);
+  border: 1px solid rgba(127,255,212,0.2);
+  border-radius: 6px; padding: 3px 8px;
+  font-size: 0.62rem; color: var(--mint);
+  font-family: 'DM Mono', monospace;
+  margin-left: 8px;
 }
 
-/* Carousel Controls */
+/* Carousel controls */
 .carousel-controls {
   display: flex; align-items: center; justify-content: center;
-  gap: 16px; margin-top: 32px;
+  gap: 14px; margin-top: 28px;
 }
 
 .carousel-btn {
-  width: 44px; height: 44px; border-radius: 50%;
-  border: 1.5px solid rgba(127,255,212,0.28);
-  background: rgba(127,255,212,0.05);
-  color: var(--mint); font-size: 1rem;
+  width: 42px; height: 42px; border-radius: 12px;
+  border: 1px solid rgba(127,255,212,0.22);
+  background: rgba(127,255,212,0.04);
+  color: var(--mint); font-size: 0.9rem;
   cursor: pointer; display: flex; align-items: center; justify-content: center;
-  transition: all 0.35s;
+  transition: all 0.32s;
 }
 
 .carousel-btn:hover {
   border-color: var(--mint);
-  background: rgba(127,255,212,0.12);
-  transform: scale(1.1);
-  box-shadow: 0 0 18px rgba(127,255,212,0.2);
+  background: rgba(127,255,212,0.1);
+  transform: scale(1.08);
 }
 
-.carousel-dots { display: flex; gap: 8px; align-items: center; }
+.carousel-dots { display: flex; gap: 7px; align-items: center; }
 
 .dot {
-  width: 7px; height: 7px; border-radius: 50%;
-  background: rgba(127,255,212,0.2);
-  transition: all 0.38s; cursor: pointer;
+  width: 6px; height: 6px; border-radius: 50%;
+  background: rgba(127,255,212,0.18);
+  transition: all 0.35s; cursor: pointer;
 }
 
 .dot.active {
-  background: var(--mint); width: 22px; border-radius: 100px;
-  box-shadow: 0 0 10px rgba(127,255,212,0.45);
+  background: var(--mint); width: 20px; border-radius: 100px;
+  box-shadow: 0 0 8px rgba(127,255,212,0.4);
 }
 
-/* FEEDBACK SECTION */
+/* ======= FEEDBACK EMAIL ======= */
 .feedback-box {
-  text-align: center; padding: 84px 48px;
-  border: 1px solid rgba(127,255,212,0.1);
-  border-radius: 26px; background: rgba(13,33,55,0.4);
-  margin-top: 64px; position: relative; overflow: hidden;
+  text-align: center; padding: 80px 48px;
+  border: 1px solid var(--border);
+  border-radius: 24px; background: var(--glass);
+  margin-top: 60px; position: relative; overflow: hidden;
+  backdrop-filter: blur(20px);
   transition: border-color 0.4s;
 }
 
-.feedback-box:hover { border-color: rgba(127,255,212,0.22); }
+.feedback-box:hover { border-color: rgba(127,255,212,0.18); }
 
 .pulse-ring {
   position: absolute; top: 50%; left: 50%;
   width: 320px; height: 320px; border-radius: 50%;
-  border: 1px solid rgba(127,255,212,0.05);
-  animation: ringExpand 3.2s ease-out infinite;
+  border: 1px solid rgba(127,255,212,0.04);
+  animation: ringExpand 3.5s ease-out infinite;
   pointer-events: none;
 }
 
-.pulse-ring:nth-child(2) { animation-delay: 1.05s; }
-.pulse-ring:nth-child(3) { animation-delay: 2.1s; }
+.pulse-ring:nth-child(2) { animation-delay: 1.15s; }
+.pulse-ring:nth-child(3) { animation-delay: 2.3s; }
 
 @keyframes ringExpand {
-  0%   { transform:translate(-50%,-50%) scale(0.3); opacity:0.9; }
-  100% { transform:translate(-50%,-50%) scale(2.5); opacity:0; }
+  0%   { transform:translate(-50%,-50%) scale(0.3); opacity:0.8; }
+  100% { transform:translate(-50%,-50%) scale(2.8); opacity:0; }
 }
 
 .feedback-email {
   display: inline-block;
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 1.55rem; color: var(--mint);
+  font-family: 'Instrument Serif', serif;
+  font-size: 1.5rem; color: var(--mint);
   text-decoration: none;
-  border-bottom: 1px solid rgba(127,255,212,0.3);
-  padding-bottom: 5px; margin-top: 30px;
-  transition: border-color 0.3s, letter-spacing 0.35s;
+  border-bottom: 1px solid rgba(127,255,212,0.28);
+  padding-bottom: 4px; margin-top: 28px;
+  transition: border-color 0.3s, letter-spacing 0.3s;
   position: relative; z-index: 1;
 }
 
-.feedback-email:hover { border-color: var(--mint); letter-spacing: 0.04em; }
+.feedback-email:hover { border-color: var(--mint); letter-spacing: 0.03em; }
 
 .feedback-chips {
   display: flex; flex-wrap: wrap; justify-content: center;
-  gap: 10px; margin-top: 34px;
-  position: relative; z-index: 1;
+  gap: 8px; margin-top: 30px; position: relative; z-index: 1;
 }
 
 .chip {
-  display: flex; align-items: center; gap: 7px;
-  background: rgba(127,255,212,0.07);
-  border: 1px solid rgba(127,255,212,0.15);
-  border-radius: 100px; padding: 7px 15px;
-  font-size: 0.78rem; color: rgba(240,248,244,0.68);
+  display: flex; align-items: center; gap: 6px;
+  background: rgba(127,255,212,0.05);
+  border: 1px solid rgba(127,255,212,0.12);
+  border-radius: 100px; padding: 6px 14px;
+  font-size: 0.75rem; color: rgba(238,245,241,0.6);
   transition: border-color 0.3s, background 0.3s, color 0.3s;
 }
 
 .chip:hover {
-  border-color: rgba(127,255,212,0.4);
-  background: rgba(127,255,212,0.12);
+  border-color: rgba(127,255,212,0.35);
+  background: rgba(127,255,212,0.1);
   color: var(--mint);
 }
 
-/* BACK TO TOP */
+/* ======= BACK TO TOP ======= */
 #back-top {
-  position: fixed; bottom: 32px; right: 32px;
-  width: 50px; height: 50px; border-radius: 50%;
-  background: rgba(127,255,212,0.12);
-  border: 1.5px solid rgba(127,255,212,0.3);
-  color: var(--mint); font-size: 1.1rem;
+  position: fixed; bottom: 30px; right: 30px;
+  width: 48px; height: 48px; border-radius: 14px;
+  background: rgba(127,255,212,0.1);
+  border: 1px solid rgba(127,255,212,0.25);
+  color: var(--mint); font-size: 1rem;
   display: flex; align-items: center; justify-content: center;
   cursor: pointer; z-index: 200;
-  transition: all 0.4s cubic-bezier(.16,1,.3,1);
+  transition: all 0.4s;
   opacity: 0; pointer-events: none;
-  transform: translateY(20px) scale(0.8);
+  transform: translateY(16px);
 }
 
-#back-top.visible { opacity: 1; pointer-events: all; transform: translateY(0) scale(1); }
+#back-top.visible { opacity: 1; pointer-events: all; transform: translateY(0); }
 
 #back-top:hover {
   background: var(--mint); color: var(--navy);
-  transform: translateY(-4px) scale(1.08);
-  box-shadow: 0 12px 36px rgba(127,255,212,0.4);
-  border-color: var(--mint);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 32px rgba(127,255,212,0.38);
 }
 
-#back-top svg { transition: transform 0.35s; }
-#back-top:hover svg { transform: translateY(-2px); }
-
 footer {
-  border-top: 1px solid rgba(127,255,212,0.06);
-  padding: 52px 32px; text-align: center;
+  border-top: 1px solid var(--border);
+  padding: 48px 32px; text-align: center;
   position: relative; z-index: 1;
 }
 
 .footer-verse {
-  font-family: 'Cormorant Garamond', serif;
-  font-style: italic; color: rgba(127,255,212,0.4);
-  font-size: 0.94rem; margin-bottom: 14px;
+  font-family: 'Instrument Serif', serif;
+  font-style: italic; color: rgba(127,255,212,0.35);
+  font-size: 0.92rem; margin-bottom: 12px;
 }
 
-.footer-copy { font-size: 0.72rem; color: rgba(240,248,244,0.2); letter-spacing: 0.1em; }
+.footer-copy { font-size: 0.68rem; color: rgba(238,245,241,0.18); letter-spacing: 0.1em; font-family: 'DM Mono', monospace; }
 
 @keyframes fadeUp {
-  from { opacity:0; transform:translateY(30px); }
+  from { opacity:0; transform:translateY(28px); }
   to   { opacity:1; transform:translateY(0); }
 }
 
 .reveal {
-  opacity: 0; transform: translateY(38px);
-  transition: opacity 0.92s cubic-bezier(.16,1,.3,1), transform 0.92s cubic-bezier(.16,1,.3,1);
+  opacity: 0; transform: translateY(32px);
+  transition: opacity 0.9s cubic-bezier(.16,1,.3,1), transform 0.9s cubic-bezier(.16,1,.3,1);
 }
 
 .reveal.visible { opacity:1; transform:translateY(0); }
@@ -970,53 +999,40 @@ footer {
 .d3{transition-delay:0.16s;} .d4{transition-delay:0.22s;}
 .d5{transition-delay:0.28s;} .d6{transition-delay:0.34s;}
 
-/* WHAT'S NEW badge */
-.badge-new {
-  display: inline-flex; align-items: center;
-  background: rgba(127,255,212,0.12);
-  border: 1px solid rgba(127,255,212,0.28);
-  border-radius: 6px; padding: 1px 7px;
-  font-size: 10px; letter-spacing: 0.1em;
-  color: var(--mint); margin-left: 4px;
-  vertical-align: middle;
-}
-
 @media (max-width: 640px) {
-  nav { padding: 14px 20px; }
-  .step-card { grid-template-columns: 1fr; gap: 14px; padding: 24px 20px; }
-  .app-card  { padding: 30px 20px; }
+  nav { padding: 12px 20px; }
+  .step-card { grid-template-columns: 1fr; gap: 12px; padding: 22px 18px; }
+  .app-card { padding: 28px 20px; }
   .app-features { grid-template-columns: 1fr; }
-  .founder-block { padding: 44px 28px; }
-  .founder-photo { width: 100px; height: 100px; }
-  .feedback-box  { padding: 52px 22px; }
-  .feedback-card { padding: 36px 28px 30px; }
+  .founder-block { padding: 40px 24px; }
+  .feedback-box { padding: 48px 20px; }
+  .feedback-card { padding: 32px 24px 28px; }
   .btn-row { flex-direction: column; align-items: flex-start; }
-  .fb-header { flex-direction: column; }
-  #back-top { bottom: 20px; right: 20px; width: 44px; height: 44px; }
+  #back-top { bottom: 18px; right: 18px; }
 }
 </style>
 </head>
 <body>
 
-<canvas id="stars"></canvas>
-<div class="cursor-glow" id="cursorGlow"></div>
+<!-- 3D GRID BACKGROUND -->
+<canvas id="bg-canvas"></canvas>
 
 <button id="back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top">
-  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
     <polyline points="18 15 12 9 6 15"></polyline>
   </svg>
 </button>
 
 <nav>
   <a class="nav-brand" href="#">Aron Micko Labs</a>
-  <span class="nav-badge"><span class="nav-badge-dot"></span>Beta Testing Program</span>
+  <span class="nav-badge"><span class="pulse-dot"></span>Beta Testing Program</span>
 </nav>
 
-<!-- HERO -->
+<!-- ======= HERO ======= -->
 <section class="hero">
   <div class="hero-inner">
-    <div class="dove-wrap"><span class="dove-glow">🕊️</span></div>
-    <div class="hero-badge"><span class="blink-dot"></span>Exclusive Beta Testing · Private Access Only</div>
+    <div class="hero-icon-wrap"><div class="hero-glyph">🕊️</div></div>
+    <div class="hero-eyebrow"><span class="pulse-dot"></span>Exclusive Beta Testing · Private Access Only</div>
     <h1 class="hero-title">
       You are invited to<br>
       <em>shape these apps</em><br>
@@ -1027,8 +1043,7 @@ footer {
       reach and heal thousands of people who struggle with anxiety every day.
     </p>
     <div class="hero-notice">
-      <strong>🔒 Keep these links private.</strong> &nbsp;These apps are not yet publicly released.
-      Please do not share with anyone outside this program.
+      <strong>🔒 Keep these links private.</strong>&nbsp; These apps are not yet publicly released.
     </div>
     <p class="hero-verse">"Be still and know that I am God." — Psalm 46:10</p>
   </div>
@@ -1040,7 +1055,7 @@ footer {
 
 <hr class="divider">
 
-<!-- ABOUT FOUNDER -->
+<!-- ======= ABOUT ======= -->
 <section id="about">
   <div class="wrap">
     <span class="section-label reveal">Why This Exists</span>
@@ -1052,22 +1067,19 @@ footer {
       <p class="founder-text">
         I know what anxiety feels like. I know what it is like to wake up with your heart
         racing, not knowing why. I know what panic attacks feel like in the middle of the day
-        when everything seems fine on the outside.
-        <br><br>
+        when everything seems fine on the outside.<br><br>
         These apps were not built in a big office by a large team. They were built by one person,
         with a laptop, a lot of prayer, and a genuine desire to help people feel less alone in
-        what they are going through.
-        <br><br>
+        what they are going through.<br><br>
         You are here because I trust you. Your feedback is not just data,
         it is a gift to every future user who will open these apps on their worst day.
-        I am deeply grateful that you said yes.
-        <br><br>
+        I am deeply grateful that you said yes.<br><br>
         If even one person finds a little more peace because of what you helped build,
         that is enough for me.
       </p>
       <div class="founder-sig">
         <img src="https://raw.githubusercontent.com/AronMicko/aronmickolabs/main/founder.png.png" alt="Aron Micko Boquiren" class="founder-avatar-img" />
-        <div class="founder-info">
+        <div>
           <div class="founder-name">Aron Micko Boquiren</div>
           <div class="founder-role">Founder · Aron Micko Labs</div>
         </div>
@@ -1078,59 +1090,56 @@ footer {
 
 <hr class="divider">
 
-<!-- HOW TO JOIN -->
+<!-- ======= HOW ======= -->
 <section id="how">
   <div class="wrap">
     <span class="section-label reveal">Step by Step Guide</span>
     <h2 class="section-title reveal">How to <em>join the test.</em></h2>
-    <p class="section-body reveal">
-      Follow these steps carefully. It takes less than 2 minutes
-      and you only need to do this once per app.
-    </p>
+    <p class="section-body reveal">Follow these steps carefully. It takes less than 2 minutes and you only need to do this once per app.</p>
     <div class="steps-wrap">
       <div class="step-card reveal d1">
-        <div class="step-num">1</div>
+        <div class="step-num">01</div>
         <div>
           <div class="step-title">Open Google Chrome and sign in with your Gmail</div>
-          <p class="step-desc">On your Android phone, open <strong>Google Chrome</strong>. Make sure you are signed in with the Gmail account you registered as a tester. The testing access is tied to your Google account. Use the exact Gmail you gave to the developer.</p>
+          <p class="step-desc">On your Android phone, open <strong>Google Chrome</strong>. Make sure you are signed in with the Gmail account you registered as a tester. The testing access is tied to your Google account.</p>
         </div>
       </div>
       <div class="step-card reveal d2">
-        <div class="step-num">2</div>
+        <div class="step-num">02</div>
         <div>
           <div class="step-title">Copy the testing link of the app you want</div>
-          <p class="step-desc">Scroll down to the apps section below. Find the app you want to test and tap the <strong>"Copy Link"</strong> button. The link will be copied to your clipboard automatically.</p>
-          <div class="step-tag">📋 One tap to copy. No typing needed</div>
+          <p class="step-desc">Scroll down to the apps section below. Find the app you want to test and tap the <strong>"Copy Link"</strong> button.</p>
+          <div class="step-tag">📋 One tap to copy — no typing needed</div>
         </div>
       </div>
       <div class="step-card reveal d3">
-        <div class="step-num">3</div>
+        <div class="step-num">03</div>
         <div>
-          <div class="step-title">Paste the link in Google Chrome's search bar</div>
-          <p class="step-desc">Go to <strong>Google Chrome</strong> on your Android phone. Tap the address bar at the top, then long-press and tap <strong>"Paste"</strong>. Press Enter to open the link. This will take you directly to the Google Play testing page.</p>
+          <div class="step-title">Paste the link in Google Chrome's address bar</div>
+          <p class="step-desc">Tap the address bar at the top, long-press and tap <strong>"Paste"</strong>, then press Enter. This takes you directly to the Google Play testing page.</p>
           <div class="step-tag">📱 Make sure Chrome is signed in to your tester Gmail</div>
         </div>
       </div>
       <div class="step-card reveal d4">
-        <div class="step-num">4</div>
+        <div class="step-num">04</div>
         <div>
           <div class="step-title">Tap "Become a tester" on the Google Play page</div>
-          <p class="step-desc">On the page that opens, you will see a button that says <strong>"Become a tester"</strong>. Tap it and wait a few seconds. Once confirmed, the page will refresh and show an Install button. You only need to do this once.</p>
+          <p class="step-desc">You will see a button that says <strong>"Become a tester"</strong>. Tap it and wait a few seconds. You only need to do this once.</p>
         </div>
       </div>
       <div class="step-card reveal d5">
-        <div class="step-num">5</div>
+        <div class="step-num">05</div>
         <div>
           <div class="step-title">Tap "Install" to download the app</div>
-          <p class="step-desc">After becoming a tester, tap <strong>"Install"</strong>. The app will download and install normally on your phone, just like any other app from the Play Store.</p>
-          <div class="step-tag">⏱ Installation takes about 30 to 60 seconds</div>
+          <p class="step-desc">After becoming a tester, tap <strong>"Install"</strong>. The app will download and install normally.</p>
+          <div class="step-tag">⏱ Installation takes about 30–60 seconds</div>
         </div>
       </div>
       <div class="step-card reveal d6">
-        <div class="step-num">6</div>
+        <div class="step-num">06</div>
         <div>
-          <div class="step-title">Explore the app and send your feedback</div>
-          <p class="step-desc">Use the app normally. Try every button, every feature, every screen. If something crashes, freezes, looks wrong, or feels confusing, <strong>take a screenshot</strong> and send it to the developer. Send all your feedback to <strong>aronmickoboquiren@gmail.com</strong>.</p>
+          <div class="step-title">Explore and send your feedback</div>
+          <p class="step-desc">Try every button, every feature, every screen. If something crashes or feels confusing, <strong>take a screenshot</strong> and send it to <strong>aronmickoboquiren@gmail.com</strong>.</p>
           <div class="step-tag">💬 Honest feedback = better app for everyone</div>
         </div>
       </div>
@@ -1140,41 +1149,33 @@ footer {
 
 <hr class="divider">
 
-<!-- APPS -->
+<!-- ======= APPS ======= -->
 <section id="apps">
   <div class="wrap">
     <span class="section-label reveal">Testing Links</span>
     <h2 class="section-title reveal">Copy a link to <em>start testing.</em></h2>
-    <p class="section-body reveal">
-      Tap <strong style="color:var(--mint)">Copy Link</strong> below, then open Google Chrome on your Android phone,
-      paste it in the address bar, and press Enter.
-    </p>
+    <p class="section-body reveal">Tap <strong style="color:var(--mint)">Copy Link</strong> below, then open Google Chrome on your Android phone, paste it in the address bar, and press Enter.</p>
 
     <div class="apps-grid">
 
-      <!-- ✦ WHAT'S NEW: Serenara v1.0.3 -->
-      <div class="app-card reveal d1" style="border-color: rgba(127,255,212,0.22);">
-
-        <!-- Topbar -->
-        <div style="display:flex;align-items:center;gap:10px;background:rgba(127,255,212,0.06);border:1px solid rgba(127,255,212,0.1);border-radius:12px;padding:9px 18px;margin-bottom:26px;">
-          <span style="width:7px;height:7px;border-radius:50%;background:#7FFFD4;box-shadow:0 0 8px rgba(127,255,212,0.7);animation:blink 1.6s ease-in-out infinite;flex-shrink:0;display:inline-block;"></span>
-          <span style="font-size:11px;letter-spacing:0.22em;text-transform:uppercase;color:rgba(127,255,212,0.55);">What's New</span>
-          <span style="margin-left:auto;background:rgba(201,168,76,0.12);border:1px solid rgba(201,168,76,0.3);border-radius:100px;padding:3px 12px;font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:#C9A84C;font-weight:500;">v1.0.3 · Released Apr 24</span>
+      <!-- FEATURED: Serenara v1.0.3 -->
+      <div class="app-card featured reveal d1">
+        <div class="whats-new-bar">
+          <span class="whats-new-dot"></span>
+          <span class="whats-new-label">What's New</span>
+          <span class="version-chip">v1.0.3 · Released Apr 24</span>
         </div>
-
         <div class="app-header">
-          <span class="app-emoji">🌿</span>
+          <div class="app-emoji">🌿</div>
           <div>
             <div class="app-name">Serenara</div>
             <div class="app-tagline">Biggest Update Yet</div>
           </div>
         </div>
-
-        <p class="app-desc" style="font-size:1rem;color:rgba(240,248,244,0.7);">
+        <p class="app-desc" style="font-size:0.95rem;color:rgba(238,245,241,0.65);">
           Version 1.0.3 is a <strong style="color:var(--mint)">complete redesign</strong>: smoother UI, faster performance, and powerful new tools to help you breathe through anything.
         </p>
-
-        <ul class="app-features" style="margin-bottom:28px;">
+        <ul class="app-features" style="margin-bottom:26px;">
           <li>New UI &amp; smoother navigation</li>
           <li>Mood Journal <span class="badge-new">NEW</span></li>
           <li>Physiological Sigh (Stanford-backed) <span class="badge-new">NEW</span></li>
@@ -1182,34 +1183,27 @@ footer {
           <li>Crisis Resources <span class="badge-new">NEW</span></li>
           <li>Faster performance &amp; stability</li>
         </ul>
-
-        <!-- Update guide for existing testers -->
-        <div style="background:rgba(255,179,71,0.06);border:1px solid rgba(255,179,71,0.2);border-radius:14px;padding:18px 20px;margin-bottom:24px;">
-          <div style="font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,179,71,0.7);margin-bottom:14px;">Already installed? Quick update guide</div>
-          <div style="display:flex;flex-direction:column;gap:10px;">
-            <div style="display:flex;gap:12px;align-items:flex-start;font-size:13px;color:rgba(240,248,244,0.62);">
-              <span style="width:22px;height:22px;border-radius:50%;border:1px solid rgba(127,255,212,0.3);display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:12px;color:#7FFFD4;flex-shrink:0;">1</span>
-              <span><strong style="color:var(--warn)">Uninstall</strong> the old version of Serenara from your Android phone first.</span>
-            </div>
-            <div style="display:flex;gap:12px;align-items:flex-start;font-size:13px;color:rgba(240,248,244,0.62);">
-              <span style="width:22px;height:22px;border-radius:50%;border:1px solid rgba(127,255,212,0.3);display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:12px;color:#7FFFD4;flex-shrink:0;">2</span>
-              <span>Open <strong style="color:var(--mint)">Google Chrome</strong> (signed in to your tester Gmail) and tap the button below.</span>
-            </div>
-            <div style="display:flex;gap:12px;align-items:flex-start;font-size:13px;color:rgba(240,248,244,0.62);">
-              <span style="width:22px;height:22px;border-radius:50%;border:1px solid rgba(127,255,212,0.3);display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:12px;color:#7FFFD4;flex-shrink:0;">3</span>
-              <span>Tap <strong style="color:var(--mint)">"Become a tester"</strong> if prompted, then tap <strong style="color:var(--mint)">"Install."</strong></span>
-            </div>
+        <div class="update-guide">
+          <div class="update-guide-title">Already installed? Quick update guide</div>
+          <div class="update-step">
+            <span class="update-step-num">1</span>
+            <span><strong style="color:var(--warn)">Uninstall</strong> the old version of Serenara from your Android phone first.</span>
+          </div>
+          <div class="update-step">
+            <span class="update-step-num">2</span>
+            <span>Open <strong style="color:var(--mint)">Google Chrome</strong> (signed in to your tester Gmail) and tap the button below.</span>
+          </div>
+          <div class="update-step">
+            <span class="update-step-num">3</span>
+            <span>Tap <strong style="color:var(--mint)">"Become a tester"</strong> if prompted, then tap <strong style="color:var(--mint)">"Install."</strong></span>
           </div>
         </div>
-
         <div class="btn-row">
-          <a class="btn-test" href="https://play.google.com/store/apps/details?id=com.aronmickolabs.serenara" target="_blank">
-            <span class="btn-icon">▶</span>
-            Get v1.0.3 on Google Play
+          <a class="btn-primary" href="https://play.google.com/store/apps/details?id=com.aronmickolabs.serenara" target="_blank">
+            ▶ Get v1.0.3 on Google Play
           </a>
         </div>
-
-        <p style="margin-top:18px;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:13px;color:rgba(127,255,212,0.35);text-align:center;">"Be still and know that I am God." — Psalm 46:10</p>
+        <p style="margin-top:18px;font-family:'Instrument Serif',serif;font-style:italic;font-size:12px;color:rgba(127,255,212,0.3);text-align:center;">"Be still and know that I am God." — Psalm 46:10</p>
       </div>
 
       <!-- APP 1: Serenara -->
@@ -1217,18 +1211,16 @@ footer {
         <span class="app-number">01</span>
         <div class="warn-box">
           <span class="warn-icon">⚠️</span>
-          <div><strong>Before opening:</strong> Make sure Google Chrome on your Android phone is signed in with the Gmail you registered as a tester. If the Install button does not appear, tap "Become a tester" first.</div>
+          <div><strong>Before opening:</strong> Make sure Google Chrome on your Android phone is signed in with the Gmail you registered as a tester.</div>
         </div>
         <div class="app-header">
-          <span class="app-emoji">🌿</span>
+          <div class="app-emoji">🌿</div>
           <div>
             <div class="app-name">Serenara</div>
             <div class="app-tagline">Anxiety Relief</div>
           </div>
         </div>
-        <p class="app-desc">
-          A wellness app designed to help you manage anxiety, stress, and panic through guided breathing exercises, calming tools, and daily mental relaxation techniques.
-        </p>
+        <p class="app-desc">A wellness app designed to help you manage anxiety, stress, and panic through guided breathing exercises, calming tools, and daily mental relaxation techniques.</p>
         <ul class="app-features">
           <li>Guided breathing exercises</li>
           <li>Panic attack calming tools</li>
@@ -1239,41 +1231,15 @@ footer {
         </ul>
         <div class="feature-ratings" id="ratings-serenara">
           <div class="feature-ratings-title">⭐ Tester Feature Ratings</div>
-          <div class="rating-row">
-            <span class="rating-label">UI Design</span>
-            <div class="rating-bar-wrap"><div class="rating-bar"></div></div>
-            <span class="rating-score">4.8</span>
-          </div>
-          <div class="rating-row">
-            <span class="rating-label">Ease of Use</span>
-            <div class="rating-bar-wrap"><div class="rating-bar"></div></div>
-            <span class="rating-score">4.7</span>
-          </div>
-          <div class="rating-row">
-            <span class="rating-label">Calming Effect</span>
-            <div class="rating-bar-wrap"><div class="rating-bar"></div></div>
-            <span class="rating-score">5.0</span>
-          </div>
-          <div class="rating-row">
-            <span class="rating-label">Bible Verses</span>
-            <div class="rating-bar-wrap"><div class="rating-bar"></div></div>
-            <span class="rating-score">5.0</span>
-          </div>
-          <div class="rating-row">
-            <span class="rating-label">Overall</span>
-            <div class="rating-bar-wrap"><div class="rating-bar"></div></div>
-            <span class="rating-score">4.5</span>
-          </div>
+          <div class="rating-row"><span class="rating-label">UI Design</span><div class="rating-bar-wrap"><div class="rating-bar" style="--w:0.96"></div></div><span class="rating-score">4.8</span></div>
+          <div class="rating-row"><span class="rating-label">Ease of Use</span><div class="rating-bar-wrap"><div class="rating-bar" style="--w:0.94"></div></div><span class="rating-score">4.7</span></div>
+          <div class="rating-row"><span class="rating-label">Calming Effect</span><div class="rating-bar-wrap"><div class="rating-bar" style="--w:1"></div></div><span class="rating-score">5.0</span></div>
+          <div class="rating-row"><span class="rating-label">Bible Verses</span><div class="rating-bar-wrap"><div class="rating-bar" style="--w:1"></div></div><span class="rating-score">5.0</span></div>
+          <div class="rating-row"><span class="rating-label">Overall</span><div class="rating-bar-wrap"><div class="rating-bar" style="--w:0.9"></div></div><span class="rating-score">4.5</span></div>
         </div>
-        <div class="btn-row" style="margin-top: 28px;">
-          <a class="btn-test" href="https://play.google.com/store/apps/details?id=com.aronmickolabs.serenara" target="_blank">
-            <span class="btn-icon">▶</span>
-            Open on Google Play
-          </a>
-          <button class="btn-copy" onclick="copyLink('https://play.google.com/store/apps/details?id=com.aronmickolabs.serenara', this, 'instr-serenara')">
-            <span class="copy-icon">📋</span>
-            Copy Link
-          </button>
+        <div class="btn-row" style="margin-top:26px;">
+          <a class="btn-primary" href="https://play.google.com/store/apps/details?id=com.aronmickolabs.serenara" target="_blank">▶ Open on Google Play</a>
+          <button class="btn-copy" onclick="copyLink('https://play.google.com/store/apps/details?id=com.aronmickolabs.serenara', this, 'instr-serenara')">📋 Copy Link</button>
         </div>
         <div class="copy-instruction" id="instr-serenara">
           <strong>✅ Link copied!</strong> Here's what to do next:
@@ -1292,18 +1258,16 @@ footer {
         <span class="app-number">02</span>
         <div class="warn-box">
           <span class="warn-icon">⚠️</span>
-          <div><strong>Before opening:</strong> Make sure Google Chrome on your Android phone is signed in with the Gmail you registered as a tester. If the Install button does not appear, tap "Become a tester" first.</div>
+          <div><strong>Before opening:</strong> Make sure Google Chrome on your Android phone is signed in with the Gmail you registered as a tester.</div>
         </div>
         <div class="app-header">
-          <span class="app-emoji">🎧</span>
+          <div class="app-emoji">🎧</div>
           <div>
             <div class="app-name">Sensery</div>
             <div class="app-tagline">Mindful Audio Health</div>
           </div>
         </div>
-        <p class="app-desc">
-          A wellness audio app designed to help you manage anxiety, stress, and sleep difficulties through mood-based podcast recommendations and curated calming audio.
-        </p>
+        <p class="app-desc">A wellness audio app designed to help you manage anxiety, stress, and sleep difficulties through mood-based podcast recommendations and curated calming audio.</p>
         <ul class="app-features">
           <li>Mood-based audio recommendations</li>
           <li>Curated calming podcasts</li>
@@ -1314,41 +1278,15 @@ footer {
         </ul>
         <div class="feature-ratings" id="ratings-sensery">
           <div class="feature-ratings-title">⭐ Tester Feature Ratings</div>
-          <div class="rating-row">
-            <span class="rating-label">UI Design</span>
-            <div class="rating-bar-wrap"><div class="rating-bar"></div></div>
-            <span class="rating-score">4.5</span>
-          </div>
-          <div class="rating-row">
-            <span class="rating-label">Audio Quality</span>
-            <div class="rating-bar-wrap"><div class="rating-bar"></div></div>
-            <span class="rating-score">4.7</span>
-          </div>
-          <div class="rating-row">
-            <span class="rating-label">Podcast Picks</span>
-            <div class="rating-bar-wrap"><div class="rating-bar"></div></div>
-            <span class="rating-score">4.4</span>
-          </div>
-          <div class="rating-row">
-            <span class="rating-label">Sleep Sounds</span>
-            <div class="rating-bar-wrap"><div class="rating-bar"></div></div>
-            <span class="rating-score">4.8</span>
-          </div>
-          <div class="rating-row">
-            <span class="rating-label">Overall</span>
-            <div class="rating-bar-wrap"><div class="rating-bar"></div></div>
-            <span class="rating-score">4.5</span>
-          </div>
+          <div class="rating-row"><span class="rating-label">UI Design</span><div class="rating-bar-wrap"><div class="rating-bar"></div></div><span class="rating-score">4.5</span></div>
+          <div class="rating-row"><span class="rating-label">Audio Quality</span><div class="rating-bar-wrap"><div class="rating-bar"></div></div><span class="rating-score">4.7</span></div>
+          <div class="rating-row"><span class="rating-label">Podcast Picks</span><div class="rating-bar-wrap"><div class="rating-bar"></div></div><span class="rating-score">4.4</span></div>
+          <div class="rating-row"><span class="rating-label">Sleep Sounds</span><div class="rating-bar-wrap"><div class="rating-bar"></div></div><span class="rating-score">4.8</span></div>
+          <div class="rating-row"><span class="rating-label">Overall</span><div class="rating-bar-wrap"><div class="rating-bar"></div></div><span class="rating-score">4.5</span></div>
         </div>
-        <div class="btn-row" style="margin-top: 28px;">
-          <a class="btn-test" href="https://play.google.com/store/apps/details?id=com.aronmicko.sensery" target="_blank">
-            <span class="btn-icon">▶</span>
-            Open on Google Play
-          </a>
-          <button class="btn-copy" onclick="copyLink('https://play.google.com/store/apps/details?id=com.aronmicko.sensery', this, 'instr-sensery')">
-            <span class="copy-icon">📋</span>
-            Copy Link
-          </button>
+        <div class="btn-row" style="margin-top:26px;">
+          <a class="btn-primary" href="https://play.google.com/store/apps/details?id=com.aronmicko.sensery" target="_blank">▶ Open on Google Play</a>
+          <button class="btn-copy" onclick="copyLink('https://play.google.com/store/apps/details?id=com.aronmicko.sensery', this, 'instr-sensery')">📋 Copy Link</button>
         </div>
         <div class="copy-instruction" id="instr-sensery">
           <strong>✅ Link copied!</strong> Here's what to do next:
@@ -1367,18 +1305,16 @@ footer {
         <span class="app-number">03</span>
         <div class="warn-box">
           <span class="warn-icon">⚠️</span>
-          <div><strong>Before opening:</strong> Make sure Google Chrome on your Android phone is signed in with the Gmail you registered as a tester. If the Install button does not appear, tap "Become a tester" first.</div>
+          <div><strong>Before opening:</strong> Make sure Google Chrome on your Android phone is signed in with the Gmail you registered as a tester.</div>
         </div>
         <div class="app-header">
-          <span class="app-emoji">🕊️</span>
+          <div class="app-emoji">🕊️</div>
           <div>
             <div class="app-name">Serevibe</div>
             <div class="app-tagline">Calm Dove Companion</div>
           </div>
         </div>
-        <p class="app-desc">
-          A faith-based calm rhythm game that helps you breathe through anxiety. Guide your dove through peaceful skies while following a gentle breathing coach and grounding scripture affirmations.
-        </p>
+        <p class="app-desc">A faith-based calm rhythm game that helps you breathe through anxiety. Guide your dove through peaceful skies while following a gentle breathing coach and grounding scripture affirmations.</p>
         <ul class="app-features">
           <li>Calm Flight rhythm game</li>
           <li>4-7-8 and Box Breathing guide</li>
@@ -1389,43 +1325,66 @@ footer {
         </ul>
         <div class="feature-ratings" id="ratings-serevibe">
           <div class="feature-ratings-title">⭐ Tester Feature Ratings</div>
-          <div class="rating-row">
-            <span class="rating-label">Gameplay</span>
-            <div class="rating-bar-wrap"><div class="rating-bar"></div></div>
-            <span class="rating-score">4.8</span>
-          </div>
-          <div class="rating-row">
-            <span class="rating-label">Breathing Guide</span>
-            <div class="rating-bar-wrap"><div class="rating-bar"></div></div>
-            <span class="rating-score">5.0</span>
-          </div>
-          <div class="rating-row">
-            <span class="rating-label">Scripture Verses</span>
-            <div class="rating-bar-wrap"><div class="rating-bar"></div></div>
-            <span class="rating-score">5.0</span>
-          </div>
-          <div class="rating-row">
-            <span class="rating-label">Music &amp; Atmosphere</span>
-            <div class="rating-bar-wrap"><div class="rating-bar"></div></div>
-            <span class="rating-score">4.8</span>
-          </div>
-          <div class="rating-row">
-            <span class="rating-label">Overall</span>
-            <div class="rating-bar-wrap"><div class="rating-bar"></div></div>
-            <span class="rating-score">5.0</span>
-          </div>
+          <div class="rating-row"><span class="rating-label">Gameplay</span><div class="rating-bar-wrap"><div class="rating-bar"></div></div><span class="rating-score">4.8</span></div>
+          <div class="rating-row"><span class="rating-label">Breathing Guide</span><div class="rating-bar-wrap"><div class="rating-bar"></div></div><span class="rating-score">5.0</span></div>
+          <div class="rating-row"><span class="rating-label">Scripture Verses</span><div class="rating-bar-wrap"><div class="rating-bar"></div></div><span class="rating-score">5.0</span></div>
+          <div class="rating-row"><span class="rating-label">Music &amp; Atmosphere</span><div class="rating-bar-wrap"><div class="rating-bar"></div></div><span class="rating-score">4.8</span></div>
+          <div class="rating-row"><span class="rating-label">Overall</span><div class="rating-bar-wrap"><div class="rating-bar"></div></div><span class="rating-score">5.0</span></div>
         </div>
-        <div class="btn-row" style="margin-top: 28px;">
-          <a class="btn-test" href="https://play.google.com/store/apps/details?id=com.aronmickolabs.serevibe" target="_blank">
-            <span class="btn-icon">▶</span>
-            Open on Google Play
-          </a>
-          <button class="btn-copy" onclick="copyLink('https://play.google.com/store/apps/details?id=com.aronmickolabs.serevibe', this, 'instr-serevibe')">
-            <span class="copy-icon">📋</span>
-            Copy Link
-          </button>
+        <div class="btn-row" style="margin-top:26px;">
+          <a class="btn-primary" href="https://play.google.com/store/apps/details?id=com.aronmickolabs.serevibe" target="_blank">▶ Open on Google Play</a>
+          <button class="btn-copy" onclick="copyLink('https://play.google.com/store/apps/details?id=com.aronmickolabs.serevibe', this, 'instr-serevibe')">📋 Copy Link</button>
         </div>
         <div class="copy-instruction" id="instr-serevibe">
+          <strong>✅ Link copied!</strong> Here's what to do next:
+          <ol>
+            <li>Open <strong>Google Chrome</strong> on your Android phone</li>
+            <li>Make sure Chrome is signed in with your <strong>tester Gmail</strong></li>
+            <li>Tap the <strong>address bar</strong> at the top</li>
+            <li>Long-press and tap <strong>"Paste"</strong>, then press Enter</li>
+            <li>On the Play Store page, tap <strong>"Become a tester"</strong> then <strong>"Install"</strong></li>
+          </ol>
+        </div>
+      </div>
+
+      <!-- APP 4: Serenova -->
+      <div class="app-card reveal d5">
+        <span class="app-number">04</span>
+        <div class="warn-box">
+          <span class="warn-icon">⚠️</span>
+          <div><strong>Before opening:</strong> Make sure Google Chrome on your Android phone is signed in with the Gmail you registered as a tester.</div>
+        </div>
+        <div class="app-header">
+          <div class="app-emoji">📱</div>
+          <div>
+            <div class="app-name">Serenova</div>
+            <div class="app-tagline">Smarter Screen Habits</div>
+          </div>
+        </div>
+        <p class="app-desc">A productivity wellness app that helps you build smarter screen habits and stay focused throughout your day. Set limits, take mindful breaks, and track your daily focus score.</p>
+        <ul class="app-features">
+          <li>Screen Time Timer</li>
+          <li>Break Reminders</li>
+          <li>4-7-8 Breathing Exercise</li>
+          <li>Gratitude Journal</li>
+          <li>Motivational Quotes &amp; Scripture</li>
+          <li>Daily Analytics &amp; Focus Score</li>
+          <li>Focus Mode &amp; Scroll Limits</li>
+          <li>100% offline, no ads</li>
+        </ul>
+        <div class="feature-ratings" id="ratings-serenova">
+          <div class="feature-ratings-title">⭐ Tester Feature Ratings</div>
+          <div class="rating-row"><span class="rating-label">UI Design</span><div class="rating-bar-wrap"><div class="rating-bar"></div></div><span class="rating-score">—</span></div>
+          <div class="rating-row"><span class="rating-label">Focus Tools</span><div class="rating-bar-wrap"><div class="rating-bar"></div></div><span class="rating-score">—</span></div>
+          <div class="rating-row"><span class="rating-label">Break Reminders</span><div class="rating-bar-wrap"><div class="rating-bar"></div></div><span class="rating-score">—</span></div>
+          <div class="rating-row"><span class="rating-label">Overall</span><div class="rating-bar-wrap"><div class="rating-bar"></div></div><span class="rating-score">—</span></div>
+        </div>
+        <p style="font-size:0.74rem;color:rgba(127,255,212,0.4);margin-top:10px;font-style:italic;font-family:'Instrument Serif',serif;">Ratings coming soon — be the first to test!</p>
+        <div class="btn-row" style="margin-top:26px;">
+          <a class="btn-primary" href="https://play.google.com/store/apps/details?id=com.aronmickolabs.serenova" target="_blank">▶ Open on Google Play</a>
+          <button class="btn-copy" onclick="copyLink('https://play.google.com/store/apps/details?id=com.aronmickolabs.serenova', this, 'instr-serenova')">📋 Copy Link</button>
+        </div>
+        <div class="copy-instruction" id="instr-serenova">
           <strong>✅ Link copied!</strong> Here's what to do next:
           <ol>
             <li>Open <strong>Google Chrome</strong> on your Android phone</li>
@@ -1443,49 +1402,25 @@ footer {
 
 <hr class="divider">
 
-<!-- REMINDERS -->
+<!-- ======= REMINDERS ======= -->
 <section id="reminders">
   <div class="wrap">
     <span class="section-label reveal">Before You Begin</span>
     <h2 class="section-title reveal">Important <em>things to know.</em></h2>
     <div class="reminders-grid">
-      <div class="reminder-card reveal d1">
-        <span class="reminder-icon">🔒</span>
-        <div class="reminder-title">Keep Links Private</div>
-        <p class="reminder-desc">These links are for selected testers only. Please do not share them publicly or with anyone not part of this program.</p>
-      </div>
-      <div class="reminder-card reveal d2">
-        <span class="reminder-icon">📱</span>
-        <div class="reminder-title">Android Phones Only</div>
-        <p class="reminder-desc">These apps are currently on Android only. Open the links on your Android phone via Google Chrome for installation to work correctly.</p>
-      </div>
-      <div class="reminder-card reveal d3">
-        <span class="reminder-icon">🧪</span>
-        <div class="reminder-title">Beta Versions</div>
-        <p class="reminder-desc">These are testing versions. Some features may still be in development. Bugs are expected. That is exactly why you are here.</p>
-      </div>
-      <div class="reminder-card reveal d4">
-        <span class="reminder-icon">💬</span>
-        <div class="reminder-title">Report Everything</div>
-        <p class="reminder-desc">Crashes, bugs, confusing buttons, slow loading. All feedback matters. No report is too small. Screenshots are very helpful.</p>
-      </div>
-      <div class="reminder-card reveal d5">
-        <span class="reminder-icon">⚕️</span>
-        <div class="reminder-title">Wellness Companions</div>
-        <p class="reminder-desc">These apps are wellness companions, not medical treatments. If you are in crisis, please call 988 or contact a licensed professional.</p>
-      </div>
-      <div class="reminder-card reveal d6">
-        <span class="reminder-icon">🙏</span>
-        <div class="reminder-title">Thank You Deeply</div>
-        <p class="reminder-desc">Your time is a gift. Every tester brings these apps one step closer to helping someone on their worst day. It truly matters.</p>
-      </div>
+      <div class="reminder-card reveal d1"><span class="reminder-icon">🔒</span><div class="reminder-title">Keep Links Private</div><p class="reminder-desc">These links are for selected testers only. Please do not share them publicly or with anyone not part of this program.</p></div>
+      <div class="reminder-card reveal d2"><span class="reminder-icon">📱</span><div class="reminder-title">Android Phones Only</div><p class="reminder-desc">These apps are currently on Android only. Open the links on your Android phone via Google Chrome for installation to work correctly.</p></div>
+      <div class="reminder-card reveal d3"><span class="reminder-icon">🧪</span><div class="reminder-title">Beta Versions</div><p class="reminder-desc">These are testing versions. Some features may still be in development. Bugs are expected. That is exactly why you are here.</p></div>
+      <div class="reminder-card reveal d4"><span class="reminder-icon">💬</span><div class="reminder-title">Report Everything</div><p class="reminder-desc">Crashes, bugs, confusing buttons, slow loading. All feedback matters. No report is too small. Screenshots are very helpful.</p></div>
+      <div class="reminder-card reveal d5"><span class="reminder-icon">⚕️</span><div class="reminder-title">Wellness Companions</div><p class="reminder-desc">These apps are wellness companions, not medical treatments. If you are in crisis, please call 988 or contact a licensed professional.</p></div>
+      <div class="reminder-card reveal d6"><span class="reminder-icon">🙏</span><div class="reminder-title">Thank You Deeply</div><p class="reminder-desc">Your time is a gift. Every tester brings these apps one step closer to helping someone on their worst day. It truly matters.</p></div>
     </div>
   </div>
 </section>
 
 <hr class="divider">
 
-<!-- TESTER FEEDBACK CAROUSEL -->
+<!-- ======= CAROUSEL ======= -->
 <section id="feedback-section">
   <div class="wrap">
     <span class="section-label reveal">Tester Reviews</span>
@@ -1495,114 +1430,75 @@ footer {
     <div class="carousel-outer reveal">
       <div class="carousel-track" id="carouselTrack">
 
-        <!-- Slide 1: Jester -->
+        <!-- Slide 1 -->
         <div class="feedback-slide">
           <div class="feedback-card">
             <div class="fb-header">
               <div class="fb-reviewer">
-                <div class="fb-avatar" style="background: linear-gradient(135deg, #3CB8A0, #060D18);">JA</div>
-                <div>
-                  <div class="fb-name">Jester Aoanan</div>
-                  <div class="fb-meta">Apr 13, 2026 · 10:11 · App v1.0.1 · Android 14</div>
-                </div>
+                <div class="fb-avatar" style="background: linear-gradient(135deg, #3CB8A0, #040A14);">JA</div>
+                <div><div class="fb-name">Jester Aoanan</div><div class="fb-meta">Apr 13, 2026 · App v1.0.1 · Android 14</div></div>
               </div>
-              <div class="fb-stars">
-                <span class="star">⭐</span><span class="star">⭐</span><span class="star">⭐</span><span class="star">⭐</span><span class="star">⭐</span>
-                <span class="fb-rating-label">5.0</span>
-              </div>
+              <div class="fb-stars"><span class="star">⭐</span><span class="star">⭐</span><span class="star">⭐</span><span class="star">⭐</span><span class="star">⭐</span><span class="fb-rating-label">5.0</span></div>
             </div>
             <div class="fb-app-tag">🌿 Serenara · Anxiety Relief</div>
             <div class="fb-body"><p>Good for relieving anxiety and stress.</p></div>
             <div class="fb-reply">
               <div class="fb-reply-ava">AM</div>
-              <div class="fb-reply-content">
-                <div class="fb-reply-name">Aron Micko Boquiren · Developer</div>
-                <div class="fb-reply-date">Apr 17, 2026 · 14:19</div>
-                <div class="fb-reply-text">Thank you so much for your review! 🙏</div>
-              </div>
+              <div><div class="fb-reply-name">Aron Micko Boquiren · Developer</div><div class="fb-reply-date">Apr 17, 2026 · 14:19</div><div class="fb-reply-text">Thank you so much for your review! 🙏</div></div>
             </div>
           </div>
         </div>
 
-        <!-- Slide 2: Leynald -->
+        <!-- Slide 2 -->
         <div class="feedback-slide">
           <div class="feedback-card">
             <div class="fb-header">
               <div class="fb-reviewer">
-                <div class="fb-avatar" style="background: linear-gradient(135deg, #C9A84C, #060D18);">LF</div>
-                <div>
-                  <div class="fb-name">Leynald Fernandez</div>
-                  <div class="fb-meta">Mon, Apr 20, 2026 · 2:15 PM</div>
-                </div>
+                <div class="fb-avatar" style="background: linear-gradient(135deg, #C9A84C, #040A14);">LF</div>
+                <div><div class="fb-name">Leynald Fernandez</div><div class="fb-meta">Mon, Apr 20, 2026 · 2:15 PM</div></div>
               </div>
-              <div class="fb-stars">
-                <span class="star">⭐</span><span class="star">⭐</span><span class="star">⭐</span><span class="star">⭐</span>
-                <span class="star" style="font-size:0.7rem;opacity:0.6">½⭐</span>
-                <span class="fb-rating-label">4.5</span>
-              </div>
+              <div class="fb-stars"><span class="star">⭐</span><span class="star">⭐</span><span class="star">⭐</span><span class="star">⭐</span><span class="fb-rating-label">4.5</span></div>
             </div>
             <div class="fb-app-tag">🌿 Serenara · Anxiety Relief</div>
             <div class="fb-body">
-              <p>I literally love this application. The color themes suit the purpose perfectly, and as a Christian, I especially appreciate the inclusion of Bible verses. They serve as a wonderful reminder and a great source of comfort. Such a great addition to a wellness app.</p>
+              <p>I literally love this application. The color themes suit the purpose perfectly, and as a Christian, I especially appreciate the inclusion of Bible verses — a wonderful reminder and a great source of comfort.</p>
               <div class="fb-subhead">Audio &amp; Atmosphere Suggestions</div>
-              <p><strong style="color:var(--mint)">Voice-Over for Bible Verses:</strong> I suggest adding a feature where a voice reads the Bible verses when they pop up. This would allow users to listen and reflect on the message without needing to focus on reading.</p>
-              <p><strong style="color:var(--mint)">Encouraging Audio Cues:</strong> During the "Breathe In/Out" exercises, it would be helpful to have a voice speaking encouraging words. This would provide extra support and guidance during moments of anxiety or panic.</p>
-              <p><strong style="color:var(--mint)">Lofi Relaxing Music:</strong> As a person who loves music and uses it as a primary way to relax, I believe adding Lofi background music would be a perfect addition to help users calm down.</p>
-              <p>This app is already a wonderful tool for mental health. The combination of spiritual encouragement and relaxation techniques is very effective. Thank you for the opportunity to test such a meaningful application. I truly believe it will help many people find peace.</p>
+              <p><strong style="color:var(--mint)">Voice-Over for Bible Verses:</strong> Adding a voice that reads the verses would let users listen and reflect without needing to read.</p>
+              <p><strong style="color:var(--mint)">Encouraging Audio Cues:</strong> During breathe in/out exercises, a voice with encouraging words would provide extra support during anxiety or panic.</p>
+              <p><strong style="color:var(--mint)">Lofi Relaxing Music:</strong> As someone who uses music to relax, adding Lofi background music would be a perfect addition.</p>
             </div>
             <div class="fb-reply">
               <div class="fb-reply-ava">AM</div>
-              <div class="fb-reply-content">
-                <div class="fb-reply-name">Aron Micko Boquiren · Developer</div>
-                <div class="fb-reply-date">Apr 20, 2026</div>
-                <div class="fb-reply-text">Great feedback! Thanks 🙏</div>
-                <div class="fb-resolved">✅ Resolved · New feature added</div>
-              </div>
+              <div><div class="fb-reply-name">Aron Micko Boquiren · Developer</div><div class="fb-reply-date">Apr 20, 2026</div><div class="fb-reply-text">Great feedback! Thanks 🙏</div><div class="fb-resolved">✅ Resolved · New feature added</div></div>
             </div>
           </div>
         </div>
 
-        <!-- Slide 3: Rose Marie Perez -->
+        <!-- Slide 3 -->
         <div class="feedback-slide">
           <div class="feedback-card">
             <div class="fb-header">
               <div class="fb-reviewer">
-                <div class="fb-avatar" style="background: linear-gradient(135deg, #7FFFD4, #0A1628); color: #060D18;">RP</div>
-                <div>
-                  <div class="fb-name">Rose Marie Perez</div>
-                  <div class="fb-meta">Beta Tester · Serenara</div>
-                </div>
+                <div class="fb-avatar" style="background: linear-gradient(135deg, #7FFFD4, #081020); color:#040A14;">RP</div>
+                <div><div class="fb-name">Rose Marie Perez</div><div class="fb-meta">Beta Tester · Serenara</div></div>
               </div>
-              <div class="fb-stars">
-                <span class="star">⭐</span><span class="star">⭐</span><span class="star">⭐</span><span class="star">⭐</span><span class="star">⭐</span>
-                <span class="fb-rating-label">5.0</span>
-              </div>
+              <div class="fb-stars"><span class="star">⭐</span><span class="star">⭐</span><span class="star">⭐</span><span class="star">⭐</span><span class="star">⭐</span><span class="fb-rating-label">5.0</span></div>
             </div>
             <div class="fb-app-tag">🌿 Serenara · Anxiety Relief</div>
-
-            <!-- Feedback body — toggled by translate -->
             <div class="fb-body" id="rose-feedback-body">
               <p id="rose-feedback-text">maganda po sya ate. . ginagamit ko twing umaga sa labas habang papaaraw ako. . . nakakatulong sakin lalo sa health ko.</p>
-              <p style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:0.82rem;color:rgba(127,255,212,0.4);margin-top:10px;">— Rose Marie Perez</p>
+              <p style="font-family:'Instrument Serif',serif;font-style:italic;font-size:0.8rem;color:rgba(127,255,212,0.35);margin-top:8px;">— Rose Marie Perez</p>
             </div>
-
-            <!-- Translate button row -->
-            <div style="display:flex;align-items:center;gap:12px;margin-bottom:24px;position:relative;z-index:1;">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:22px;position:relative;z-index:1;">
               <button class="btn-translate" id="rose-translate-btn" onclick="translateRoseFeedback()">
-                <span class="translate-icon">🌐</span>
-                <span id="rose-btn-label">Translate to English</span>
+                <span>🌐</span><span id="rose-btn-label">Translate to English</span>
               </button>
-              <span id="rose-translate-status" style="display:none;font-size:0.75rem;color:rgba(127,255,212,0.55);font-style:italic;animation:fadeUp 0.4s forwards;">Translating…</span>
-              <span id="rose-lang-badge" style="display:none;" class="translated-badge">🇵🇭 Filipino → 🇬🇧 English</span>
+              <span id="rose-translate-status" style="display:none;font-size:0.72rem;color:rgba(127,255,212,0.5);font-style:italic;">Translating…</span>
+              <span id="rose-lang-badge" style="display:none;" class="translated-badge">🇵🇭 → 🇬🇧</span>
             </div>
-
             <div class="fb-reply">
               <div class="fb-reply-ava">AM</div>
-              <div class="fb-reply-content">
-                <div class="fb-reply-name">Aron Micko Boquiren · Developer</div>
-                <div class="fb-reply-date">Salamat po, Madam Rose Marie! 🌿</div>
-                <div class="fb-reply-text">Ang ganda ngang marinig na nakakatulong ito sa inyong umaga. Maraming salamat po sa inyong tapat na feedback. 🙏</div>
-              </div>
+              <div><div class="fb-reply-name">Aron Micko Boquiren · Developer</div><div class="fb-reply-date">Salamat po, Madam Rose Marie! 🌿</div><div class="fb-reply-text">Ang ganda ngang marinig na nakakatulong ito sa inyong umaga. Maraming salamat po. 🙏</div></div>
             </div>
           </div>
         </div>
@@ -1610,16 +1506,16 @@ footer {
       </div>
 
       <div class="carousel-controls">
-        <button class="carousel-btn" id="prevBtn" onclick="moveCarousel(-1)" aria-label="Previous">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        <button class="carousel-btn" onclick="moveCarousel(-1)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
         </button>
         <div class="carousel-dots" id="carouselDots">
           <div class="dot active" onclick="goToSlide(0)"></div>
           <div class="dot" onclick="goToSlide(1)"></div>
           <div class="dot" onclick="goToSlide(2)"></div>
         </div>
-        <button class="carousel-btn" id="nextBtn" onclick="moveCarousel(1)" aria-label="Next">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+        <button class="carousel-btn" onclick="moveCarousel(1)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
         </button>
       </div>
     </div>
@@ -1628,18 +1524,15 @@ footer {
 
 <hr class="divider">
 
-<!-- FEEDBACK EMAIL -->
+<!-- ======= FEEDBACK EMAIL ======= -->
 <section id="feedback">
   <div class="wrap">
     <div class="feedback-box reveal">
-      <div class="pulse-ring"></div>
-      <div class="pulse-ring"></div>
-      <div class="pulse-ring"></div>
+      <div class="pulse-ring"></div><div class="pulse-ring"></div><div class="pulse-ring"></div>
       <span class="section-label" style="position:relative;z-index:1">Send Your Feedback</span>
       <h2 class="section-title" style="position:relative;z-index:1">Every message <em>matters.</em></h2>
       <p class="section-body" style="margin:0 auto;text-align:center;position:relative;z-index:1">
-        Found a bug? Something felt confusing? Want to share what you loved?
-        Send everything here. We read every single message with full attention. 🙏
+        Found a bug? Something felt confusing? Want to share what you loved?<br>We read every single message with full attention. 🙏
       </p>
       <a class="feedback-email" href="mailto:aronmickoboquiren@gmail.com">aronmickoboquiren@gmail.com</a>
       <div class="feedback-chips">
@@ -1655,121 +1548,175 @@ footer {
 </section>
 
 <footer>
-  <p class="footer-verse">"Cast all your anxiety on Him because He cares for you." 1 Peter 5:7</p>
-  <p class="footer-copy">Aron Micko Labs © 2026 &nbsp;·&nbsp; Beta Testing Program &nbsp;·&nbsp; Made with faith and care 🕊️</p>
+  <p class="footer-verse">"Cast all your anxiety on Him because He cares for you." — 1 Peter 5:7</p>
+  <p class="footer-copy">ARON MICKO LABS © 2026 &nbsp;·&nbsp; BETA TESTING PROGRAM &nbsp;·&nbsp; MADE WITH FAITH AND CARE 🕊️</p>
 </footer>
 
 <script>
-/* ===== STARS ===== */
-(function(){
-  const c = document.getElementById('stars');
-  const ctx = c.getContext('2d');
-  let W, H, stars = [];
-  function resize(){ W = c.width = window.innerWidth; H = c.height = window.innerHeight; }
-  function initStars(){
-    stars = Array.from({length:180}, () => ({
-      x: Math.random()*W, y: Math.random()*H,
-      r: Math.random()*1.5+0.2,
-      speed: Math.random()*0.0028+0.0003,
-      phase: Math.random()*Math.PI*2,
-    }));
+/* ===== 3D GRID BACKGROUND ===== */
+(function() {
+  const canvas = document.getElementById('bg-canvas');
+  const ctx = canvas.getContext('2d');
+  let W, H, animId;
+
+  function resize() {
+    W = canvas.width = window.innerWidth;
+    H = canvas.height = window.innerHeight;
   }
-  let t = 0;
-  function draw(){
-    ctx.clearRect(0,0,W,H); t += 0.005;
-    stars.forEach(s => {
-      const a = 0.07 + 0.55*(Math.sin(t*s.speed*130+s.phase)+1)/2;
+
+  resize();
+  window.addEventListener('resize', resize, { passive: true });
+
+  // Perspective grid parameters
+  const MINT = [127, 255, 212];
+  let scrollY = 0;
+  window.addEventListener('scroll', () => { scrollY = window.scrollY; }, { passive: true });
+
+  function drawGrid(t) {
+    ctx.clearRect(0, 0, W, H);
+
+    const horizon = H * 0.48;
+    const fov = 0.8;
+    const speed = (t * 0.00018 + scrollY * 0.00006) % 1;
+
+    // How many lines
+    const numH = 14; // horizontal (depth)
+    const numV = 22; // vertical
+
+    ctx.save();
+
+    // Horizontal lines (receding into distance)
+    for (let i = 0; i <= numH; i++) {
+      const p = ((i / numH) + speed) % 1;
+      // Perspective: map 0..1 to horizon..bottom
+      const curve = Math.pow(p, 1.7);
+      const y = horizon + curve * (H - horizon + 40);
+
+      const alpha = curve * 0.25;
+      if (alpha < 0.005) continue;
+
       ctx.beginPath();
-      ctx.arc(s.x, s.y, s.r, 0, Math.PI*2);
-      ctx.fillStyle = `rgba(127,255,212,${a})`;
+      ctx.moveTo(0, y);
+      ctx.lineTo(W, y);
+      ctx.strokeStyle = `rgba(${MINT[0]},${MINT[1]},${MINT[2]},${alpha})`;
+      ctx.lineWidth = curve * 1.2;
+      ctx.stroke();
+    }
+
+    // Vertical lines (converging to vanishing point)
+    const vx = W / 2; // vanishing x
+    const vy = horizon; // vanishing y
+
+    for (let i = 0; i <= numV; i++) {
+      const tx = (i / numV) * W; // target x at bottom
+      const dx = tx - vx;
+      const alpha = 0.06 * (1 - Math.abs((i / numV) - 0.5) * 1.4);
+      if (alpha <= 0) continue;
+
+      ctx.beginPath();
+      ctx.moveTo(vx + dx * 0.02, vy);
+      ctx.lineTo(tx, H + 40);
+      ctx.strokeStyle = `rgba(${MINT[0]},${MINT[1]},${MINT[2]},${Math.max(0, alpha)})`;
+      ctx.lineWidth = 0.8;
+      ctx.stroke();
+    }
+
+    // Ambient gradient overlay (top — keeps text readable)
+    const grad = ctx.createLinearGradient(0, 0, 0, horizon + 60);
+    grad.addColorStop(0, `rgba(4,10,20,1)`);
+    grad.addColorStop(1, `rgba(4,10,20,0)`);
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, W, horizon + 60);
+
+    // Radial glow at vanishing point
+    const glow = ctx.createRadialGradient(vx, vy, 0, vx, vy, W * 0.4);
+    glow.addColorStop(0, `rgba(${MINT[0]},${MINT[1]},${MINT[2]},0.04)`);
+    glow.addColorStop(1, `rgba(${MINT[0]},${MINT[1]},${MINT[2]},0)`);
+    ctx.fillStyle = glow;
+    ctx.fillRect(0, 0, W, H);
+
+    // Floating particles
+    ctx.restore();
+  }
+
+  // Particles
+  const particles = Array.from({ length: 55 }, () => ({
+    x: Math.random() * 1,
+    y: Math.random() * 1,
+    r: Math.random() * 1.4 + 0.3,
+    speed: Math.random() * 0.0014 + 0.0002,
+    phase: Math.random() * Math.PI * 2,
+    drift: (Math.random() - 0.5) * 0.0003,
+  }));
+
+  function drawParticles(t) {
+    particles.forEach(p => {
+      const x = ((p.x + p.drift * t) % 1 + 1) % 1 * W;
+      const y = ((p.y - p.speed * t * 0.1) % 1 + 1) % 1 * H;
+      const alpha = 0.06 + 0.3 * ((Math.sin(t * p.speed * 200 + p.phase) + 1) / 2);
+      ctx.beginPath();
+      ctx.arc(x, y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(127,255,212,${alpha})`;
       ctx.fill();
     });
-    requestAnimationFrame(draw);
   }
-  resize(); initStars(); draw();
-  window.addEventListener('resize', ()=>{ resize(); initStars(); });
-})();
 
-/* ===== CURSOR GLOW ===== */
-(function(){
-  const g = document.getElementById('cursorGlow');
-  document.addEventListener('mousemove', e => {
-    g.style.left = e.clientX+'px';
-    g.style.top  = e.clientY+'px';
-  });
+  let t0 = null;
+  function frame(ts) {
+    if (!t0) t0 = ts;
+    const t = (ts - t0) / 1000;
+    drawGrid(t);
+    drawParticles(t);
+    animId = requestAnimationFrame(frame);
+  }
+
+  requestAnimationFrame(frame);
 })();
 
 /* ===== REVEAL ON SCROLL ===== */
-(function(){
+(function() {
   const io = new IntersectionObserver(entries => {
     entries.forEach(e => {
-      if(e.isIntersecting){
-        e.target.classList.add('visible');
-        io.unobserve(e.target);
-      }
+      if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
     });
-  }, {threshold: 0.08});
+  }, { threshold: 0.08 });
   document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
+  // Rating bars
   document.querySelectorAll('.app-card').forEach(card => {
     const barObs = new IntersectionObserver(entries => {
       entries.forEach(e => {
-        if(e.isIntersecting){
+        if (e.isIntersecting) {
           e.target.querySelectorAll('.rating-bar').forEach((bar, i) => {
-            setTimeout(() => bar.classList.add('animated'), 300 + i*130);
+            setTimeout(() => bar.classList.add('animated'), 250 + i * 100);
           });
           barObs.unobserve(e.target);
         }
       });
-    }, {threshold: 0.2});
+    }, { threshold: 0.2 });
     barObs.observe(card);
-  });
-})();
-
-/* ===== RIPPLE ON BUTTONS ===== */
-(function(){
-  const style = document.createElement('style');
-  style.textContent = '@keyframes ripple{to{transform:translate(-50%,-50%) scale(32);opacity:0;}}';
-  document.head.appendChild(style);
-  document.querySelectorAll('.btn-test').forEach(btn => {
-    btn.addEventListener('click', function(e){
-      const s = document.createElement('span');
-      const r = this.getBoundingClientRect();
-      s.style.cssText = `position:absolute;border-radius:50%;background:rgba(6,13,24,0.2);width:8px;height:8px;left:${e.clientX-r.left}px;top:${e.clientY-r.top}px;transform:translate(-50%,-50%) scale(0);animation:ripple 0.7s ease-out forwards;pointer-events:none;`;
-      this.appendChild(s);
-      setTimeout(() => s.remove(), 750);
-    });
   });
 })();
 
 /* ===== COPY LINK ===== */
 function copyLink(url, btn, instrId) {
-  navigator.clipboard.writeText(url).then(() => {
-    const orig = btn.innerHTML;
+  const orig = btn.innerHTML;
+  const doIt = () => {
     btn.innerHTML = '<span>✅</span> Copied!';
     btn.classList.add('copied');
     const instr = document.getElementById(instrId);
-    instr.classList.add('show');
-    setTimeout(() => {
-      btn.innerHTML = orig;
-      btn.classList.remove('copied');
-    }, 2800);
-  }).catch(() => {
-    const ta = document.createElement('textarea');
-    ta.value = url; ta.style.position = 'fixed'; ta.style.opacity = '0';
-    document.body.appendChild(ta); ta.select();
-    document.execCommand('copy');
-    document.body.removeChild(ta);
-    const orig = btn.innerHTML;
-    btn.innerHTML = '<span>✅</span> Copied!';
-    btn.classList.add('copied');
-    const instr = document.getElementById(instrId);
-    instr.classList.add('show');
-    setTimeout(() => {
-      btn.innerHTML = orig;
-      btn.classList.remove('copied');
-    }, 2800);
-  });
+    if (instr) instr.classList.add('show');
+    setTimeout(() => { btn.innerHTML = orig; btn.classList.remove('copied'); }, 2800);
+  };
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(url).then(doIt).catch(() => { fallback(url); doIt(); });
+  } else { fallback(url); doIt(); }
+}
+function fallback(url) {
+  const ta = document.createElement('textarea');
+  ta.value = url; ta.style.cssText = 'position:fixed;opacity:0';
+  document.body.appendChild(ta); ta.select(); document.execCommand('copy');
+  document.body.removeChild(ta);
 }
 
 /* ===== CAROUSEL ===== */
@@ -1778,58 +1725,34 @@ const totalSlides = 3;
 let autoTimer;
 
 function updateCarousel() {
+  document.getElementById('carouselTrack').style.transform = `translateX(-${currentSlide * 100}%)`;
+  document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === currentSlide));
+}
+function moveCarousel(dir) { currentSlide = (currentSlide + dir + totalSlides) % totalSlides; updateCarousel(); resetAuto(); }
+function goToSlide(idx) { currentSlide = idx; updateCarousel(); resetAuto(); }
+function resetAuto() { clearInterval(autoTimer); autoTimer = setInterval(() => moveCarousel(1), 6500); }
+autoTimer = setInterval(() => moveCarousel(1), 6500);
+
+// Touch
+(function() {
   const track = document.getElementById('carouselTrack');
-  track.style.transform = `translateX(-${currentSlide * 100}%)`;
-  document.querySelectorAll('.dot').forEach((d, i) => {
-    d.classList.toggle('active', i === currentSlide);
-  });
-}
-
-function moveCarousel(dir) {
-  currentSlide = (currentSlide + dir + totalSlides) % totalSlides;
-  updateCarousel();
-  resetAutoPlay();
-}
-
-function goToSlide(idx) {
-  currentSlide = idx;
-  updateCarousel();
-  resetAutoPlay();
-}
-
-function resetAutoPlay() {
-  clearInterval(autoTimer);
-  autoTimer = setInterval(() => moveCarousel(1), 6000);
-}
-
-autoTimer = setInterval(() => moveCarousel(1), 6000);
-
-/* Touch/swipe support */
-(function(){
-  const track = document.getElementById('carouselTrack');
-  let startX = 0;
-  track.addEventListener('touchstart', e => { startX = e.touches[0].clientX; }, {passive:true});
-  track.addEventListener('touchend', e => {
-    const diff = startX - e.changedTouches[0].clientX;
-    if(Math.abs(diff) > 40) moveCarousel(diff > 0 ? 1 : -1);
-  }, {passive:true});
+  let sx = 0;
+  track.addEventListener('touchstart', e => { sx = e.touches[0].clientX; }, { passive: true });
+  track.addEventListener('touchend', e => { const dx = sx - e.changedTouches[0].clientX; if (Math.abs(dx) > 38) moveCarousel(dx > 0 ? 1 : -1); }, { passive: true });
 })();
 
 /* ===== BACK TO TOP ===== */
-(function(){
+(function() {
   const btn = document.getElementById('back-top');
-  window.addEventListener('scroll', () => {
-    btn.classList.toggle('visible', window.scrollY > 500);
-  }, {passive:true});
+  window.addEventListener('scroll', () => btn.classList.toggle('visible', window.scrollY > 500), { passive: true });
 })();
 
-/* ===== TRANSLATE ROSE MARIE'S FEEDBACK ===== */
+/* ===== TRANSLATE ===== */
 let roseTranslated = false;
 const roseOriginal = "maganda po sya ate. . ginagamit ko twing umaga sa labas habang papaaraw ako. . . nakakatulong sakin lalo sa health ko.";
 
 async function translateRoseFeedback() {
   if (roseTranslated) {
-    // Toggle back to original
     document.getElementById('rose-feedback-text').textContent = roseOriginal;
     document.getElementById('rose-btn-label').textContent = 'Translate to English';
     document.getElementById('rose-translate-btn').classList.remove('translated');
@@ -1837,51 +1760,30 @@ async function translateRoseFeedback() {
     roseTranslated = false;
     return;
   }
-
   const btn = document.getElementById('rose-translate-btn');
   const status = document.getElementById('rose-translate-status');
-  const badge = document.getElementById('rose-lang-badge');
-
-  btn.disabled = true;
-  status.style.display = 'inline';
-
+  btn.disabled = true; status.style.display = 'inline';
   try {
-    const response = await fetch("https://api.anthropic.com/v1/messages", {
+    const res = await fetch("https://api.anthropic.com/v1/messages", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         model: "claude-sonnet-4-20250514",
-        max_tokens: 1000,
-        messages: [{
-          role: "user",
-          content: `Translate this Filipino/Tagalog feedback into natural, warm English. Keep the authentic voice of the reviewer — a Filipino woman sharing her experience. Enhance the wording slightly so it reads beautifully in English, but stay true to the meaning. Return ONLY the translated text, nothing else, no quotes, no explanation.\n\nOriginal: "${roseOriginal}"`
-        }]
+        max_tokens: 300,
+        messages: [{ role: "user", content: `Translate this Filipino feedback into warm, natural English. Keep the authentic voice. Return ONLY the translation, no quotes, no explanation.\n\n"${roseOriginal}"` }]
       })
     });
-
-    const data = await response.json();
-    const translated = data.content
-      .filter(b => b.type === 'text')
-      .map(b => b.text)
-      .join('')
-      .trim();
-
+    const data = await res.json();
+    const translated = data.content.filter(b => b.type === 'text').map(b => b.text).join('').trim();
     document.getElementById('rose-feedback-text').textContent = translated;
-    document.getElementById('rose-btn-label').textContent = 'Show Original (Filipino)';
-    btn.classList.add('translated');
-    badge.style.display = 'inline-flex';
-    roseTranslated = true;
-
-  } catch (err) {
-    document.getElementById('rose-feedback-text').textContent =
-      "It is so beautiful. I use it every morning while I am outside, watching the sunrise… It has been truly helping me, especially with my health.";
-    document.getElementById('rose-btn-label').textContent = 'Show Original (Filipino)';
-    btn.classList.add('translated');
-    badge.style.display = 'inline-flex';
-    roseTranslated = true;
+  } catch {
+    document.getElementById('rose-feedback-text').textContent = "It's so beautiful. I use it every morning outside while watching the sunrise… It has been truly helping me, especially with my health.";
   } finally {
-    btn.disabled = false;
-    status.style.display = 'none';
+    document.getElementById('rose-btn-label').textContent = 'Show Original (Filipino)';
+    document.getElementById('rose-translate-btn').classList.add('translated');
+    document.getElementById('rose-lang-badge').style.display = 'inline-flex';
+    btn.disabled = false; status.style.display = 'none';
+    roseTranslated = true;
   }
 }
 </script>
