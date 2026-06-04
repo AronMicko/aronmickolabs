@@ -1444,13 +1444,12 @@ function generateCertificate() {
 
   const allowed = {
     'kian denver hernandez': 'https://raw.githubusercontent.com/AronMicko/aronmickolabs/main/Kian%20Denver%20Hernandez.png',
-    'leynald fernandez': 'https://raw.githubusercontent.com/AronMicko/aronmickolabs/main/Leynald%20Fernandez.png'
-    'aira merryl saringan': 'https://raw.githubusercontent.com/AronMicko/aronmickolabs/main/Aira%20Merryl%20Saringan.png'
+    'leynald fernandez': 'https://raw.githubusercontent.com/AronMicko/aronmickolabs/main/Leynald%20Fernandez.png',
+    'aira merryl saringan': 'https://raw.githubusercontent.com/AronMicko/aronmickolabs/main/Aira%20Merryl%20Saringan.png',
     'carmela lopez': 'https://raw.githubusercontent.com/AronMicko/aronmickolabs/main/Carmela%20Lopez.png'
   };
 
   const url = allowed[fullName];
-
   if (!url) {
     document.getElementById('certFirst').style.borderColor = '#FF6B6B';
     document.getElementById('certLast').style.borderColor = '#FF6B6B';
@@ -1475,7 +1474,8 @@ function generateCertificate() {
   };
   img.src = url;
 }
- function downloadCertificate() {
+
+function downloadCertificate() {
   const first = document.getElementById('certFirst').value.trim();
   const last = document.getElementById('certLast').value.trim();
   const fullName = (first + ' ' + last).trim().toLowerCase();
@@ -1483,9 +1483,9 @@ function generateCertificate() {
 
   const allowed = {
     'kian denver hernandez': 'https://raw.githubusercontent.com/AronMicko/aronmickolabs/main/Kian%20Denver%20Hernandez.png',
-    'leynald fernandez': 'https://raw.githubusercontent.com/AronMicko/aronmickolabs/main/Leynald%20Fernandez.png'
-    'aira merryl saringan': 'https://raw.githubusercontent.com/AronMicko/aronmickolabs/main/Aira%20Merryl%20Saringan.png'
-   'carmela lopez': 'https://raw.githubusercontent.com/AronMicko/aronmickolabs/main/Carmela%20Lopez.png'
+    'leynald fernandez': 'https://raw.githubusercontent.com/AronMicko/aronmickolabs/main/Leynald%20Fernandez.png',
+    'aira merryl saringan': 'https://raw.githubusercontent.com/AronMicko/aronmickolabs/main/Aira%20Merryl%20Saringan.png',
+    'carmela lopez': 'https://raw.githubusercontent.com/AronMicko/aronmickolabs/main/Carmela%20Lopez.png'
   };
 
   const url = allowed[fullName];
@@ -1507,7 +1507,3 @@ function generateCertificate() {
       window.open(url, '_blank');
     });
 }
-</script>
-  
-</body>
-</html>
