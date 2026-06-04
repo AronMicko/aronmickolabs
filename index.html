@@ -1473,15 +1473,32 @@ function generateCertificate() {
   };
   img.src = url;
 }
-  function downloadCertificate() {
+ function downloadCertificate() {
   const first = document.getElementById('certFirst').value.trim();
   const last = document.getElementById('certLast').value.trim();
+  const fullName = (first + ' ' + last).trim().toLowerCase();
   const name = (first + '_' + last).replace(/\s+/g, '_') || 'certificate';
-  const canvas = document.getElementById('certCanvas');
-  const a = document.createElement('a');
-  a.download = `Serenara_BetaTester_${name}.png`;
-  a.href = canvas.toDataURL('image/png', 1.0);
-  a.click();
+
+  const allowed = {
+    'kian denver hernandez': 'https://raw.githubusercontent.com/AronMicko/aronmickolabs/main/Kian%20Denver%20Hernandez.png',
+    'leynald fernandez': 'https://raw.githubusercontent.com/AronMicko/aronmickolabs/main/Leynald%20Fernandez.png'
+  };
+
+  const url = allowed[fullName];
+  if (!url) return;
+
+  fetch(url)
+    .then(res => res.blob())
+    .then(blob => {
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = `Serenara_BetaTester_${name}.png`;
+      a.click();
+      URL.revokeObjectURL(a.href);
+    })
+    .catch(() => {
+      window.open(url, '_blank');
+    });
 }
 </script>
   
