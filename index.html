@@ -1440,203 +1440,39 @@ async function translateRoseFeedback() {
 function generateCertificate() {
   const first = document.getElementById('certFirst').value.trim();
   const last = document.getElementById('certLast').value.trim();
-  const fullName = (first + ' ' + last).trim();
+  const fullName = (first + ' ' + last).trim().toLowerCase();
 
-  if (!fullName || fullName.length < 2) {
-    document.getElementById('certFirst').focus();
+  const allowed = {
+    'kian denver hernandez': 'https://raw.githubusercontent.com/AronMicko/aronmickolabs/main/Kian%20Denver%20Hernandez.png',
+    'leynald fernandez': 'https://raw.githubusercontent.com/AronMicko/aronmickolabs/main/Leynald%20Fernandez.png'
+  };
+
+  const url = allowed[fullName];
+
+  if (!url) {
     document.getElementById('certFirst').style.borderColor = '#FF6B6B';
-    setTimeout(() => document.getElementById('certFirst').style.borderColor = '', 1500);
+    document.getElementById('certLast').style.borderColor = '#FF6B6B';
+    setTimeout(() => {
+      document.getElementById('certFirst').style.borderColor = '';
+      document.getElementById('certLast').style.borderColor = '';
+    }, 1500);
     return;
   }
 
-  const canvas = document.getElementById('certCanvas');
-  const ctx = canvas.getContext('2d');
-  const W = 900, H = 636;
-  canvas.width = W; canvas.height = H;
-
-  // Background gradient
-  const bg = ctx.createLinearGradient(0, 0, W, H);
-  bg.addColorStop(0, '#040A14');
-  bg.addColorStop(0.5, '#081020');
-  bg.addColorStop(1, '#040A14');
-  ctx.fillStyle = bg;
-  ctx.fillRect(0, 0, W, H);
-
-  // Outer border
-  ctx.strokeStyle = 'rgba(127,255,212,0.35)';
-  ctx.lineWidth = 1.5;
-  roundRect(ctx, 18, 18, W - 36, H - 36, 20);
-  ctx.stroke();
-
-  // Inner border
-  ctx.strokeStyle = 'rgba(127,255,212,0.1)';
-  ctx.lineWidth = 1;
-  roundRect(ctx, 32, 32, W - 64, H - 64, 14);
-  ctx.stroke();
-
-  // Corner ornaments
-  drawCornerOrnaments(ctx, W, H);
-
-  // Top glow
-  const topGlow = ctx.createRadialGradient(W / 2, 0, 0, W / 2, 0, 400);
-  topGlow.addColorStop(0, 'rgba(127,255,212,0.06)');
-  topGlow.addColorStop(1, 'rgba(127,255,212,0)');
-  ctx.fillStyle = topGlow;
-  ctx.fillRect(0, 0, W, H);
-
-  // Decorative line at top
-  const lineGrad = ctx.createLinearGradient(80, 0, W - 80, 0);
-  lineGrad.addColorStop(0, 'rgba(127,255,212,0)');
-  lineGrad.addColorStop(0.5, 'rgba(127,255,212,0.6)');
-  lineGrad.addColorStop(1, 'rgba(127,255,212,0)');
-  ctx.beginPath();
-  ctx.moveTo(80, 92); ctx.lineTo(W - 80, 92);
-  ctx.strokeStyle = lineGrad; ctx.lineWidth = 1; ctx.stroke();
-
-  // Dove emoji
-  ctx.font = '44px serif';
-  ctx.textAlign = 'center';
-  ctx.fillText('🕊️', W / 2, 88);
-
-  // ARON MICKO LABS label
-  ctx.fillStyle = 'rgba(127,255,212,0.5)';
-  ctx.font = '500 11px "DM Mono", monospace';
-  ctx.letterSpacing = '0.32em';
-  ctx.fillText('ARON MICKO LABS', W / 2, 118);
-  ctx.letterSpacing = '0';
-
-  // Thin separator
-  ctx.beginPath();
-  ctx.moveTo(W / 2 - 60, 132); ctx.lineTo(W / 2 + 60, 132);
-  ctx.strokeStyle = 'rgba(127,255,212,0.18)'; ctx.lineWidth = 0.8; ctx.stroke();
-
-  // "Certificate of Recognition"
-  ctx.fillStyle = 'rgba(238,245,241,0.3)';
-  ctx.font = '13px "DM Mono", monospace';
-  ctx.fillText('CERTIFICATE OF RECOGNITION', W / 2, 162);
-
-  // Main italic text
-  ctx.fillStyle = 'rgba(238,245,241,0.5)';
-  ctx.font = 'italic 20px "Instrument Serif", Georgia, serif';
-  ctx.fillText('This is to proudly certify that', W / 2, 210);
-
-  // NAME — big and glowing
-  ctx.save();
-  ctx.shadowColor = 'rgba(127,255,212,0.45)';
-  ctx.shadowBlur = 30;
-  ctx.fillStyle = '#7FFFD4';
-  const nameSize = fullName.length > 22 ? 44 : fullName.length > 16 ? 52 : 60;
-  ctx.font = `400 ${nameSize}px "Instrument Serif", Georgia, serif`;
-  ctx.fillText(fullName, W / 2, 285);
-  ctx.restore();
-
-  // Underline for name
-  const nameWidth = ctx.measureText(fullName).width;
-  const underlineGrad = ctx.createLinearGradient(W / 2 - nameWidth / 2, 0, W / 2 + nameWidth / 2, 0);
-  underlineGrad.addColorStop(0, 'rgba(127,255,212,0)');
-  underlineGrad.addColorStop(0.5, 'rgba(127,255,212,0.4)');
-  underlineGrad.addColorStop(1, 'rgba(127,255,212,0)');
-  ctx.beginPath();
-  ctx.moveTo(W / 2 - nameWidth / 2, 296);
-  ctx.lineTo(W / 2 + nameWidth / 2, 296);
-  ctx.strokeStyle = underlineGrad; ctx.lineWidth = 1.2; ctx.stroke();
-
-  // Body text
-  ctx.fillStyle = 'rgba(238,245,241,0.52)';
-  ctx.font = 'italic 18px "Instrument Serif", Georgia, serif';
-  ctx.fillText('has officially served as an', W / 2, 336);
-
-  // Role highlight
-  ctx.fillStyle = '#7FFFD4';
-  ctx.font = '700 20px "Syne", sans-serif';
-  ctx.fillText('INTERNAL BETA TESTER', W / 2, 372);
-
-  ctx.fillStyle = 'rgba(238,245,241,0.52)';
-  ctx.font = 'italic 18px "Instrument Serif", Georgia, serif';
-  ctx.fillText('of the wellness app', W / 2, 404);
-
-  // App name
-  ctx.fillStyle = 'rgba(238,245,241,0.9)';
-  ctx.font = '400 32px "Instrument Serif", Georgia, serif';
-  ctx.fillText('Serenara', W / 2, 443);
-
-  ctx.fillStyle = 'rgba(127,255,212,0.35)';
-  ctx.font = '11px "DM Mono", monospace';
-  ctx.fillText('by Aron Micko Labs', W / 2, 464);
-
-  // Divider
-  const divGrad = ctx.createLinearGradient(100, 0, W - 100, 0);
-  divGrad.addColorStop(0, 'rgba(127,255,212,0)');
-  divGrad.addColorStop(0.5, 'rgba(127,255,212,0.2)');
-  divGrad.addColorStop(1, 'rgba(127,255,212,0)');
-  ctx.beginPath();
-  ctx.moveTo(100, 490); ctx.lineTo(W - 100, 490);
-  ctx.strokeStyle = divGrad; ctx.lineWidth = 0.8; ctx.stroke();
-
-  // Mission statement
-  ctx.fillStyle = 'rgba(238,245,241,0.35)';
-  ctx.font = 'italic 14.5px "Instrument Serif", Georgia, serif';
-  ctx.fillText('Their dedication helped advance the mission of mental wellness for people around the world.', W / 2, 516);
-
-  // Scripture
-  ctx.fillStyle = 'rgba(127,255,212,0.3)';
-  ctx.font = 'italic 13px "Instrument Serif", Georgia, serif';
-  ctx.fillText('"Be still and know that I am God." — Psalm 46:10', W / 2, 542);
-
-  // Footer row
-  ctx.fillStyle = 'rgba(238,245,241,0.15)';
-  ctx.font = '10px "DM Mono", monospace';
-  ctx.fillText('SERENARA · INTERNAL BETA TESTING PROGRAM · 2026 · ARON MICKO LABS', W / 2, 590);
-
-  // Show preview
-  document.getElementById('certPreview').classList.add('show');
-  spawnConfetti();
-  setTimeout(() => document.getElementById('certPreview').scrollIntoView({ behavior: 'smooth', block: 'center' }), 200);
+  const img = new Image();
+  img.crossOrigin = 'anonymous';
+  img.onload = function() {
+    const canvas = document.getElementById('certCanvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = img.naturalWidth;
+    canvas.height = img.naturalHeight;
+    ctx.drawImage(img, 0, 0);
+    document.getElementById('certPreview').classList.add('show');
+    spawnConfetti();
+    setTimeout(() => document.getElementById('certPreview').scrollIntoView({ behavior: 'smooth', block: 'center' }), 200);
+  };
+  img.src = url;
 }
-
-function roundRect(ctx, x, y, w, h, r) {
-  ctx.beginPath();
-  ctx.moveTo(x + r, y);
-  ctx.lineTo(x + w - r, y); ctx.quadraticCurveTo(x + w, y, x + w, y + r);
-  ctx.lineTo(x + w, y + h - r); ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
-  ctx.lineTo(x + r, y + h); ctx.quadraticCurveTo(x, y + h, x, y + h - r);
-  ctx.lineTo(x, y + r); ctx.quadraticCurveTo(x, y, x + r, y);
-  ctx.closePath();
-}
-
-function drawCornerOrnaments(ctx, W, H) {
-  const size = 22;
-  const margin = 22;
-  const color = 'rgba(127,255,212,0.28)';
-  // Top-left
-  ctx.strokeStyle = color; ctx.lineWidth = 1.5;
-  ctx.beginPath(); ctx.moveTo(margin, margin + size); ctx.lineTo(margin, margin); ctx.lineTo(margin + size, margin); ctx.stroke();
-  // Top-right
-  ctx.beginPath(); ctx.moveTo(W - margin - size, margin); ctx.lineTo(W - margin, margin); ctx.lineTo(W - margin, margin + size); ctx.stroke();
-  // Bottom-left
-  ctx.beginPath(); ctx.moveTo(margin, H - margin - size); ctx.lineTo(margin, H - margin); ctx.lineTo(margin + size, H - margin); ctx.stroke();
-  // Bottom-right
-  ctx.beginPath(); ctx.moveTo(W - margin - size, H - margin); ctx.lineTo(W - margin, H - margin); ctx.lineTo(W - margin, H - margin - size); ctx.stroke();
-}
-
-function downloadCertificate() {
-  const first = document.getElementById('certFirst').value.trim();
-  const last = document.getElementById('certLast').value.trim();
-  const name = (first + '_' + last).replace(/\s+/g, '_') || 'certificate';
-  const canvas = document.getElementById('certCanvas');
-  const a = document.createElement('a');
-  a.download = `Serenara_BetaTester_${name}.png`;
-  a.href = canvas.toDataURL('image/png', 1.0);
-  a.click();
-}
-
-// Enter key to generate
-['certFirst','certLast'].forEach(id => {
-  document.getElementById(id).addEventListener('keydown', e => { if (e.key === 'Enter') generateCertificate(); });
-  document.getElementById(id).addEventListener('input', () => {
-    document.getElementById(id).style.borderColor = '';
-  });
-});
 </script>
 </body>
 </html>
